@@ -1,0 +1,113 @@
+
+/*PÁGINA HOME*/
+
+/*Menu lateral*/
+
+.menu{
+    position: absolute;
+    width: 162px;
+    height: 100%;
+    left: 0px;
+    top: 0px;
+    background: #2C2C2C;
+    float: left;
+    overflow: auto;
+}
+.icon{
+    position: absolute;
+    left: 20%;
+    right: 8.33%;
+    top: 10%;
+    bottom: 18%; 
+
+    
+}
+.icon1{
+
+    position: absolute;
+    left: 20%;
+    right: 12.5%;
+    top: 30%;
+    bottom: 18%;
+}
+.icon2{
+    position: absolute;
+    left: 14%;
+    right: 15.62%;
+    top: 50%;
+    bottom: 18%;
+
+}
+.icon3{
+    position: absolute;
+    left: 15%;
+    top: 77%;
+}
+
+/*Barra de Busca*/
+
+.buscar{
+    margin-top: 3%;
+    margin-left: 15%;
+}
+.btn_pesquisar{
+    background: rgba(243, 178, 15, 1);
+    ;
+}
+
+/*Máquinas*/
+
+.maquinas{
+    margin-top: 1%;
+    margin-left: 15%;
+}
+.sessao{
+    width: 20%;
+    height: 180px;
+    margin-left: 1%;
+    margin-bottom: 1%;
+    border: 1px solid #2C2C2C;
+    box-sizing: border-box;
+    border-radius: 4px;
+    float: left;
+    overflow: auto;
+}
+.host{
+    margin: 0;
+    text-align: center;
+}
+.pc{
+    margin-top: 1%;
+    margin-left: 20%;
+}
+.status{
+    position: absolute;
+    margin-left: 6.4%;
+    margin-top: 2%;
+}
+
+/*PÁGINA RELATÓRIO*/
+
+.relatorio{
+    margin-left: 15%;
+}
+.data{
+    margin-right: 4%;
+    float: left;
+}
+.btn_limpar{
+    margin-top: 5%;
+    color:red;
+    border-color: red;
+    background-color: white;
+    text-align: center;
+    margin-right: 2%;
+}
+.btn_relatorio{
+    margin-top: 5%;
+    background-color: rgba(243, 178, 15, 1);
+    color: white;
+}
+.h6{
+    margin: 0;
+}
