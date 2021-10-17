@@ -30,10 +30,8 @@ a {
     width: 64px;
     border-radius: 4px;
     margin: 9px 0;
-}
-
-.lblBtnSair {
     font-family: 'Changa', sans-serif;
+    color: #2C2C2C;
     font-size: 16px;
 }
 
@@ -110,7 +108,7 @@ a {
 }
 
 .modal {
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: center;
     position: fixed;
@@ -227,4 +225,107 @@ a {
 .grafico {
     width: 160px;
     height: 160px;
+}
+
+.formGeracaoRelatorio h1,
+.formGeracaoRelatorio h2,
+.formGeracaoRelatorio h3 {
+    margin: 0;
+    font-family: 'Quantico';
+    color: #2C2C2C;
+    font-weight: bold;
+}
+
+.formGeracaoRelatorio h1 {
+    font-size: 40px;
+}
+
+.formGeracaoRelatorio h2 {
+    font-size: 24px;
+    margin-bottom: 4px;
+    margin-top: 20px;
+}
+
+.formGeracaoRelatorio h3 {
+    font-size: 16px;
+}
+
+.formGeracaoRelatorio select {
+    outline: none;
+    height: 38.4px;
+    border: 1px solid #2C2C2C;
+    border-radius: 4px;
+    font-family: 'Changa', sans-serif;
+    color: #6B6B6B;
+    padding: 0 16px;
+    width: 224px;
+}
+
+#cmbFuncionario {
+    width: 544px;
+}
+
+.datasRelatorio {
+    display: flex;
+    flex-direction: row;
+}
+
+.datasRelatorio input {
+    outline: none;
+    height: 38.4px;
+    border: 1px solid #2C2C2C;
+    border-radius: 4px;
+    font-family: 'Changa', sans-serif;
+    color: #6B6B6B;
+    padding: 0 16px;
+    width: 224px;
+}
+
+#dtpInicio {
+    margin-right: 32px;
+}
+
+.checkbox {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    font-family: 'Changa', sans-serif;
+    color: #6B6B6B;
+}
+
+.checkbox label {
+    margin-left: 8px;
+    margin-right: 16px;
+}
+
+.botoesRelatorio {
+    display: flex;
+    flex-direction: row;
+    margin-top: 28px;
+}
+
+.botoesRelatorio div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    font-family: 'Changa', sans-serif;
+    padding: 4px 8px;
+    cursor: pointer;
+    margin-right: 32px;
+}
+
+.botoesRelatorio div .iconify {
+    margin-right: 8px;
+}
+
+.btnLimpar {
+    border: 1px solid #F21E1E;
+    color: #F21E1E;
+    background-color: white;
+}
+
+.btnGerarRelatorio {
+    color: white;
+    background-color: #F3B20F;
 }
