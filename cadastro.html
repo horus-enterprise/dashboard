@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/style.css">
+    <title>Dashboard</title>
+</head>
+
+<body class="formularios">
+    <div class="card">
+        <div class="container">
+            <h2>Cadastrar Supervisor</h2>
+            <div style="display: flex; flex-direction: row;">
+                <div style="margin-right: 24px; flex: 5;">
+                    <label for="txtNomeCadastro">Nome:</label>
+                    <input id="txtNomeCadastro" type="text" placeholder="Digite seu nome...">
+                    <label for="txtCNPJCadastro">CNPJ da Empresa:</label>
+                    <input id="txtCNPJCadastro" type="text" placeholder="00.000.000/0000-00">
+                </div>
+                <div style="flex: 5;">
+                    <label for="txtEmailCadastro">Email:</label>
+                    <input id="txtEmailCadastro" type="email" placeholder="Digite seu email...">
+                    <label for="txtSenhaCadastro">Senha:</label>
+                    <input id="txtSenhaCadastro" type="password" placeholder="Digite sua senha...">
+                    <label for="txtConfirmSenhaCadastro">Confirmar Senha:</label>
+                    <input id="txtConfirmSenhaCadastro" type="password" placeholder="Digite novamente sua senha...">
+                </div>
+            </div>
+            <div id="btnCadastrar" class="btnForm btnAmareloForm" onclick="cadastrarSupervisor()">
+                <span>Cadastrar</span>
+            </div>
+            <a href="./empresa.html">
+                <div class="btnForm btnBrancoForm">
+                    <span>Não tem uma empresa cadastrada? Cadastre-a agora!</span>
+                </div>
+            </a>
+        </div>
+        <div class="linha linha2"></div>
+        <div class="container">
+            <img class="img2" src="./img/cadastro.svg" alt="Imagem de cadastro">
+        </div>
+    </div>
+</body>
+
+</html>
+
+<script>
+    function cadastrarSupervisor() {
+        if (!document.getElementById("txtCNPJCadastro").value == "" && !document.getElementById("txtNomeCadastro").value == "" &&
+            !document.getElementById("txtEmailCadastro").value == "" && !document.getElementById("txtSenhaCadastro").value == "") {
+            if (document.getElementById("txtSenhaCadastro").value == document.getElementById("txtConfirmSenhaCadastro").value) {
+                if (document.getElementById("txtCNPJCadastro").value == sessionStorage.getItem("CNPJ")) {
+                    sessionStorage.setItem("nome", document.getElementById("txtNomeCadastro").value);
+                    sessionStorage.setItem("email", document.getElementById("txtEmailCadastro").value);
+                    sessionStorage.setItem("senha", document.getElementById("txtSenhaCadastro").value);
+                    window.location.href = "./login.html";
+                } else {
+                    alert("Este CNPJ não está cadastrado!")
+                }
+            } else {
+                alert("Senhas não correspondem!");
+            }
+        } else {
+            alert("Algum campo está em branco!");
+        }
+    }
+</script>

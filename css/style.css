@@ -11,6 +11,17 @@ a {
     color: inherit;
 }
 
+.container {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 44px;
+}
+
+
+/* ======================================= NAVBAR ======================================= */
+
 .navbar {
     display: flex;
     flex-direction: column;
@@ -35,13 +46,8 @@ a {
     font-size: 16px;
 }
 
-.container {
-    height: 100%;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    padding: 44px;
-}
+
+/* ======================================= HOME ======================================= */
 
 .divPesquisa {
     display: flex;
@@ -106,6 +112,9 @@ a {
 .computador img {
     width: 104px;
 }
+
+
+/* ======================================= MODAL ======================================= */
 
 .modal {
     display: none;
@@ -227,6 +236,9 @@ a {
     height: 160px;
 }
 
+
+/* ======================================= RELATÓRIO ======================================= */
+
 .formGeracaoRelatorio h1,
 .formGeracaoRelatorio h2,
 .formGeracaoRelatorio h3 {
@@ -256,7 +268,7 @@ a {
     border: 1px solid #2C2C2C;
     border-radius: 4px;
     font-family: 'Changa', sans-serif;
-    color: #6B6B6B;
+    color: #2C2C2C;
     padding: 0 16px;
     width: 224px;
 }
@@ -276,7 +288,7 @@ a {
     border: 1px solid #2C2C2C;
     border-radius: 4px;
     font-family: 'Changa', sans-serif;
-    color: #6B6B6B;
+    color: #2C2C2C;
     padding: 0 16px;
     width: 224px;
 }
@@ -328,4 +340,120 @@ a {
 .btnGerarRelatorio {
     color: white;
     background-color: #F3B20F;
+}
+
+
+/* ================================= FORMULÁRIOS DE CADASTRO E LOGIN ================================= */
+
+.formularios {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 0 64px;
+}
+
+.card {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    height: fit-content;
+    /* border: 1px solid #2C2C2C; */
+    border-radius: 12px;
+    box-shadow: 12px 22px 50px 5px rgba(44, 44, 44, 0.75)
+}
+
+.card .container {
+    flex: 1;
+}
+
+.card h2,
+.card label {
+    font-family: 'Quantico', sans-serif;
+    color: #2C2C2C;
+    font-weight: bold;
+    width: 100%;
+}
+
+.card h2 {
+    margin: 0;
+    margin-bottom: 32px;
+}
+
+.card input,
+.card select {
+    outline: none;
+    height: 38.4px;
+    border: 1px solid #2C2C2C;
+    border-radius: 4px;
+    font-family: 'Changa', sans-serif;
+    color: #2C2C2C;
+    padding: 0 8px;
+    width: 100%;
+    margin-bottom: 16px;
+}
+
+.card input {
+    width: calc(100% - 18px);
+}
+
+#cmbUFEmpresa,
+#txtNumEmpresa {
+    width: 52px;
+}
+
+.btnForm {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 38.4px;
+    width: calc(100% - 18px);
+    padding: 0 8px;
+    border-radius: 4px;
+    border: 1px solid #F3B20F;
+    font-family: 'Changa';
+    color: white;
+    cursor: pointer;
+}
+
+.btnAmareloForm {
+    background-color: #F3B20F;
+    margin-top: 16px;
+}
+
+.btnBrancoForm {
+    background-color: white;
+    color: #F3B20F;
+    margin-top: 4px;
+}
+
+.linha {
+    background-color: #6B6B6B;
+    width: 2px;
+    border-radius: 4px;
+}
+
+.linha1 {
+    height: 288px;
+}
+
+.linha2 {
+    height: 320px
+}
+
+.linha3 {
+    height: 384px;
+}
+
+.card .img1 {
+    width: 274px;
+}
+
+.card .img2 {
+    width: 406px;
+}
+
+.card .img3 {
+    height: 421px;
 }
