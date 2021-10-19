@@ -38,8 +38,8 @@
 <script>
     function logar() {
         if (!document.getElementById("txtEmailLogin").value == "" || !document.getElementById("txtSenhaLogin").value == "") {
-            if (document.getElementById("txtEmailLogin").value == sessionStorage.getItem("email") &&
-                document.getElementById("txtSenhaLogin").value == sessionStorage.getItem("senha")) {
+            if (document.getElementById("txtEmailLogin").value == "admin" &&
+                document.getElementById("txtSenhaLogin").value == "admin") {
                 window.location.href = "./index.html";
             } else {
                 alert("Login ou senha inválidos!")

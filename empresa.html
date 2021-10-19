@@ -80,14 +80,3 @@
 </body>
 
 </html>
-
-<script>
-    function cadastrarEmpresa() {
-        if (!document.getElementById("txtCNPJEmpresa").value == "") {
-            sessionStorage.setItem("CNPJ", document.getElementById("txtCNPJEmpresa").value);
-            window.location.href = "./cadastro.html";
-        } else {
-            alert("Algum campo está em branco!");
-        }
-    }
-</script>

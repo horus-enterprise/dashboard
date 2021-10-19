@@ -17,8 +17,8 @@
                 <div style="margin-right: 24px; flex: 5;">
                     <label for="txtNomeCadastro">Nome:</label>
                     <input id="txtNomeCadastro" type="text" placeholder="Digite seu nome...">
-                    <label for="txtCNPJCadastro">CNPJ da Empresa:</label>
-                    <input id="txtCNPJCadastro" type="text" placeholder="00.000.000/0000-00">
+                    <label for="txtCodigoCadastro">Código da Empresa:</label>
+                    <input id="txtCodigoCadastro" type="text" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx">
                 </div>
                 <div style="flex: 5;">
                     <label for="txtEmailCadastro">Email:</label>
@@ -46,25 +46,3 @@
 </body>
 
 </html>
-
-<script>
-    function cadastrarSupervisor() {
-        if (!document.getElementById("txtCNPJCadastro").value == "" && !document.getElementById("txtNomeCadastro").value == "" &&
-            !document.getElementById("txtEmailCadastro").value == "" && !document.getElementById("txtSenhaCadastro").value == "") {
-            if (document.getElementById("txtSenhaCadastro").value == document.getElementById("txtConfirmSenhaCadastro").value) {
-                if (document.getElementById("txtCNPJCadastro").value == sessionStorage.getItem("CNPJ")) {
-                    sessionStorage.setItem("nome", document.getElementById("txtNomeCadastro").value);
-                    sessionStorage.setItem("email", document.getElementById("txtEmailCadastro").value);
-                    sessionStorage.setItem("senha", document.getElementById("txtSenhaCadastro").value);
-                    window.location.href = "./login.html";
-                } else {
-                    alert("Este CNPJ não está cadastrado!")
-                }
-            } else {
-                alert("Senhas não correspondem!");
-            }
-        } else {
-            alert("Algum campo está em branco!");
-        }
-    }
-</script>
