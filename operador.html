@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.iconify.design/2/2.0.3/iconify.min.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <link rel="stylesheet" href="./css/style.css">
+    <title>Dashboard</title>
+</head>
+
+<body>
+    <div class="navbar">
+        <span class="iconify" data-icon="bx:bxs-user-circle" style="color: #f3b20f;" data-height="48"></span>
+        <a href="./index.html"><span class="iconify" data-icon="fluent:home-24-filled" style="color: #6b6b6b;" data-height="48"></span></a>
+        <a href="./operador.html"><span class="iconify" data-icon="clarity:employee-group-solid" style="color: white;" data-height="48"></span></a>
+        <a href="./relatorio.html"><span class="iconify" data-icon="carbon:report" style="color: #6b6b6b;" data-height="48"></span></a>
+        <a href="./login.html">
+            <div class="btnSair">
+                <span class="iconify" data-icon="uil:exit" style="color: #2c2c2c;" data-height="24"></span>
+                <span>SAIR</span>
+            </div>
+        </a>
+    </div>
+
+    <div class="container">
+        <div class="formCadastrarOperador">
+            <h1>Cadastrar Operador</h1>
+
+            <h2>Nome:</h2>
+            <input id="txtNomeOperador" type="text" placeholder="Digite o nome do operador...">
+
+            <h2>Email:</h2>
+            <input id="txtEmailOperador" type="email" placeholder="Digite o email do operador...">
+
+            <h2>Senha:</h2>
+            <input id="txtSenhaOperador" type="password" placeholder="Digite uma senha temporária para o operador...">
+
+            <h2>Confirmar Senha:</h2>
+            <input id="txtConfirmSenhaOperador" type="password" placeholder="Confirme a senha...">
+
+
+            <div class="botoesOperador">
+                <div class="btnLimpar">
+                    <span class="iconify" data-icon="akar-icons:trash-can" style="color: #f21e1e;" data-height="24"></span>
+                    <span>Limpar</span>
+                </div>
+                <div class="btnCadastrarOperador">
+                    <span class="iconify" data-icon="ant-design:save-outlined" style="color: white;" data-height="24"></span>
+                    <span>Cadastrar Operador</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>

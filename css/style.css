@@ -60,7 +60,7 @@ a {
     border: 1px solid #2C2C2C;
     border-radius: 4px;
     font-family: 'Changa', sans-serif;
-    padding: 0 16px;
+    padding: 0 8px;
     width: 416px;
 }
 
@@ -269,7 +269,7 @@ a {
     border-radius: 4px;
     font-family: 'Changa', sans-serif;
     color: #2C2C2C;
-    padding: 0 16px;
+    padding: 0 8px;
     width: 224px;
 }
 
@@ -289,7 +289,7 @@ a {
     border-radius: 4px;
     font-family: 'Changa', sans-serif;
     color: #2C2C2C;
-    padding: 0 16px;
+    padding: 0 8px;
     width: 224px;
 }
 
@@ -338,6 +338,70 @@ a {
 }
 
 .btnGerarRelatorio {
+    color: white;
+    background-color: #F3B20F;
+}
+
+
+/* ========================================== OPERADOR ========================================== */
+
+.formCadastrarOperador h1,
+.formCadastrarOperador h2 {
+    margin: 0;
+    font-family: 'Quantico';
+    color: #2C2C2C;
+    font-weight: bold;
+}
+
+.formCadastrarOperador h1 {
+    font-size: 40px;
+}
+
+.formCadastrarOperador h2 {
+    font-size: 24px;
+    margin-bottom: 4px;
+    margin-top: 20px;
+}
+
+.formCadastrarOperador input {
+    outline: none;
+    height: 38.4px;
+    border: 1px solid #2C2C2C;
+    border-radius: 4px;
+    font-family: 'Changa', sans-serif;
+    color: #2C2C2C;
+    padding: 0 8px;
+    width: 288px;
+}
+
+.botoesOperador {
+    display: flex;
+    flex-direction: row;
+    margin-top: 28px;
+}
+
+.botoesOperador div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    font-family: 'Changa', sans-serif;
+    padding: 4px 8px;
+    cursor: pointer;
+    margin-right: 32px;
+}
+
+.botoesOperador div .iconify {
+    margin-right: 8px;
+}
+
+.btnLimpar {
+    border: 1px solid #F21E1E;
+    color: #F21E1E;
+    background-color: white;
+}
+
+.btnCadastrarOperador {
     color: white;
     background-color: #F3B20F;
 }
