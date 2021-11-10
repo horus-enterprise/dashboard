@@ -119,43 +119,38 @@
                     <span id="fecharModal">&cross;</span>
                 </div>
             </div>
-            <div class="graficos">
+            <div class="cardsComponentes">
+                <div id="divProcessador" class="componente">
+                    <h2>Processador AMD Ryzen 3 2200G</h2>
+                    <div class="graficos">
+                        <div id="graficoProcessador7" class="grafico"></div>
+                        <div id="graficoProcessadorTemp" class="grafico"></div>
+                    </div>
+                </div>
+                <div class="componente">
+                    <h2>Memória RAM</h2>
+                    <div class="graficos">
+                        <div id="graficoMemoria7" class="grafico"></div>
+                        <div id="graficoMemoria24" class="grafico"></div>
+                    </div>
+                </div>
+                <div id="divDisco" class="componente">
+                    <h2>Disco Pichau Gaming PG256X</h2>
+                    <div class="graficos">
+                        <div id="graficoDisco30" class="grafico"></div>
+                        <div id="graficoDiscoAgora" class="grafico"></div>
+                    </div>
+                </div>
                 <div class="componente">
                     <div class="descComponente">
                         <h2>Informações</h2>
                         <p id="lblNmFuncionario"><b>Funcionário:</b> Gerivaldo Júnior</p>
                         <p id="lblTempoLogado"><b>Tempo logado:</b> 03:24:32</p>
-                        <div class="btnSitesAcessados">
+                        <div class="btnSitesAcessados" onclick="document.getElementById('tabelaHistorico').style.display = 'flex';">
                             <span class="iconify" data-icon="mdi:web" style="color: white; margin-right: 8px;" data-height="16"></span>
                             <span>Verificar Sites Acessados</span>
                         </div>
-                    </div>
-                </div>
-                <div id="divProcessador" class="componente">
-                    <div class="descComponente">
-                        <h2>Processador</h2>
-                        <p id="lblNmProcessador"><b>Nome:</b> AMD Ryzen 3 2200G</p>
-                        <p id="lblUsoAtualProcessador"><b>Uso atual:</b> 2333Hz</p>
-                    </div>
-                    <div id="graficoProcessador" class="grafico">
-                    </div>
-                </div>
-                <div class="componente">
-                    <div class="descComponente">
-                        <h2>Memória</h2>
-                        <p id="lblMemoriaTotal"><b>Memória total:</b> 12,9GB</p>
-                        <p id="lblUsoAtualMemoria"><b>Uso atual:</b> 6,1GB</p>
-                    </div>
-                    <div id="graficoMemoria" class="grafico">
-                    </div>
-                </div>
-                <div id="divDisco" class="componente">
-                    <div class="descComponente">
-                        <h2>Disco</h2>
-                        <p id="lblNmDisco"><b>Nome:</b> Pichau Gaming PG256X</p>
-                        <p id="lblRespostaDisco"><b>Tempo médio de resposta:</b> 1,1ms</p>
-                    </div>
-                    <div id="graficoDisco" class="grafico">
+                        <div id="tabelaHistorico" class="grafico" style="display: none;"></div>
                     </div>
                 </div>
             </div>
@@ -172,7 +167,10 @@
     function abrirModal() {
         modal.style.display = "flex";
     }
-    spanFechar.onclick = () => modal.style.display = "none";
+    spanFechar.onclick = () => {
+        modal.style.display = "none";
+        document.getElementById("tabelaHistorico").style.display = "none";
+    }
 
     window.onclick = function(event) {
         if (event.target == modal) {
@@ -180,101 +178,607 @@
         }
     }
 
+    // ======================================= GRÁFICOS PROCESSADOR =======================================
 
-
-    google.charts.load('current', {
-        'packages': ['gauge']
+    google.charts.load('45', {
+        packages: ['corechart', 'table']
     });
-    google.charts.setOnLoadCallback(drawChartProcessador);
+    google.charts.setOnLoadCallback(drawChartProcessador7);
 
-    function drawChartProcessador() {
+    function drawChartProcessador7() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('number', 'x');
+        data.addColumn('number', 'Uso da CPU');
+        data.addColumn('number', 'color band 1');
+        data.addColumn('number', 'color band 2');
+        data.addColumn('number', 'color band 3');
 
-        var options = {
-            width: 160,
-            height: 160,
-            redFrom: 90,
-            redTo: 100,
-            yellowFrom: 75,
-            yellowTo: 90,
-            minorTicks: 5
-        };
+        var y = 50;
+        // fill with 30 rows of random data
+        for (var i = 7; i >= 0; i--) {
+            y += Math.ceil(Math.random() * 5) * Math.pow(-1, Math.ceil(Math.random() * 2));
+            if (y < 0) {
+                y = 10;
+            }
+            if (y > 100) {
+                y = 90;
+            }
 
-        var dataProcessador = google.visualization.arrayToDataTable([
-            ['Label', 'Value'],
-            ['CPU', 55]
-        ]);
+            data.addRow([{
+                v: i,
+                f: (i != 0) ? `${i} dias atrás` : 'Hoje'
+            }, {
+                v: y,
+                f: `${y}%`
+            }, 75, 15, 10]);
+        }
 
-        var chart = new google.visualization.Gauge(document.getElementById('graficoProcessador'));
+        var chart = new google.visualization.LineChart(document.getElementById('graficoProcessador7'));
 
-        chart.draw(dataProcessador, options);
+        chart.draw(data, {
+            height: 224,
+            width: 432,
+            chartArea: {
+                width: 272,
+                left: 40
+            },
+            title: 'Média de uso da CPU nos últimos 30 dias',
+            titleTextStyle: {
+                fontName: 'Quantico',
+                color: '#2c2c2c',
+                fontSize: 15
+            },
+            legend: {
+                textStyle: {
+                    fontName: 'Changa',
+                    color: '#2c2c2c',
+                }
+            },
+            isStacked: true,
+            vAxis: {
+                title: 'Média de uso (%)',
+                titleTextStyle: {
+                    fontName: 'Changa',
+                    color: '#6b6b6b'
+                },
+                ticks: [0, 25, 50, 75, 100]
+            },
+            hAxis: {
+                direction: -1,
+                minValue: 7,
+                maxValue: 1,
+                title: 'Dias atrás',
+                titleTextStyle: {
+                    fontName: 'Changa',
+                    color: '#6b6b6b'
+                },
+                ticks: [7, 6, 5, 4, 3, 2, 1, 0]
+            },
+            series: {
+                0: {
+                    type: 'line',
+                    color: '#000'
+                },
+                1: {
+                    lineWidth: 0,
+                    type: 'area',
+                    visibleInLegend: false,
+                    enableInteractivity: false,
+                    color: '#0fa958'
 
-        setInterval(function() {
-            dataProcessador.setValue(0, 1, 40 + Math.round(60 * Math.random()));
-            chart.draw(dataProcessador, options);
-        }, 1000);
+                },
+                2: {
+                    lineWidth: 0,
+                    type: 'area',
+                    visibleInLegend: false,
+                    enableInteractivity: false,
+                    color: '#ffc700'
+                },
+                3: {
+                    lineWidth: 0,
+                    type: 'area',
+                    visibleInLegend: false,
+                    enableInteractivity: false,
+                    color: '#f21e1e'
+                }
+            }
+        });
     }
 
-    google.charts.load('current', {
-        'packages': ['gauge']
-    });
-    google.charts.setOnLoadCallback(drawChartMemoria);
+    google.charts.setOnLoadCallback(drawChartProcessadorTemp);
 
-    function drawChartMemoria() {
+    function drawChartProcessadorTemp() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('number', 'x');
+        data.addColumn('number', 'Temperatura da CPU');
+        data.addColumn('number', 'color band 1');
+        data.addColumn('number', 'color band 2');
+        data.addColumn('number', 'color band 3');
 
-        var options = {
-            width: 160,
-            height: 160,
-            redFrom: 90,
-            redTo: 100,
-            yellowFrom: 75,
-            yellowTo: 90,
-            minorTicks: 5
-        };
+        var y = 50;
+        // fill with 30 rows of random data
+        for (var i = 24; i >= 0; i--) {
+            y += Math.ceil(Math.random() * 5) * Math.pow(-1, Math.ceil(Math.random() * 2));
+            if (y < 0) {
+                y = 10;
+            }
+            if (y > 100) {
+                y = 90;
+            }
 
-        var dataMemoria = google.visualization.arrayToDataTable([
-            ['Label', 'Value'],
-            ['Memória', 55]
-        ]);
+            data.addRow([{
+                v: i,
+                f: (i != 0) ? `${i} horas atrás` : 'Agora'
+            }, {
+                v: y,
+                f: `${y}°C`
+            }, 75, 15, 10]);
+        }
 
-        var chart = new google.visualization.Gauge(document.getElementById('graficoMemoria'));
+        var chart = new google.visualization.LineChart(document.getElementById('graficoProcessadorTemp'));
 
-        chart.draw(dataMemoria, options);
+        chart.draw(data, {
+            height: 224,
+            width: 432,
+            chartArea: {
+                width: 272,
+                left: 40
+            },
+            title: 'Temperatura da CPU nas últimas 24 horas',
+            titleTextStyle: {
+                fontName: 'Quantico',
+                color: '#2c2c2c',
+                fontSize: 15
+            },
+            legend: {
+                textStyle: {
+                    fontName: 'Changa',
+                    color: '#2c2c2c',
+                }
+            },
+            isStacked: true,
+            vAxis: {
+                title: 'Temperatura atingida (°C)',
+                titleTextStyle: {
+                    fontName: 'Changa',
+                    color: '#6b6b6b'
+                },
+                ticks: [0, 25, 50, 75, 100]
+            },
+            hAxis: {
+                direction: -1,
+                minValue: 24,
+                maxValue: 0,
+                title: 'Horas atrás',
+                titleTextStyle: {
+                    fontName: 'Changa',
+                    color: '#6b6b6b'
+                },
+                ticks: [24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
+            },
+            series: {
+                0: {
+                    type: 'line',
+                    color: '#000'
+                },
+                1: {
+                    lineWidth: 0,
+                    type: 'area',
+                    visibleInLegend: false,
+                    enableInteractivity: false,
+                    color: '#0fa958'
 
-        setInterval(function() {
-            dataMemoria.setValue(0, 1, 40 + Math.round(60 * Math.random()));
-            chart.draw(dataMemoria, options);
-        }, 1000);
+                },
+                2: {
+                    lineWidth: 0,
+                    type: 'area',
+                    visibleInLegend: false,
+                    enableInteractivity: false,
+                    color: '#ffc700'
+                },
+                3: {
+                    lineWidth: 0,
+                    type: 'area',
+                    visibleInLegend: false,
+                    enableInteractivity: false,
+                    color: '#f21e1e'
+                }
+            }
+        });
     }
 
-    google.charts.load('current', {
-        'packages': ['gauge']
-    });
-    google.charts.setOnLoadCallback(drawChartDisco);
 
-    function drawChartDisco() {
 
-        var options = {
-            width: 160,
-            height: 160,
-            redFrom: 90,
-            redTo: 100,
-            yellowFrom: 75,
-            yellowTo: 90,
-            minorTicks: 5
-        };
+    // ======================================= GRÁFICOS MEMÓRIA =======================================
 
-        var dataDisco = google.visualization.arrayToDataTable([
-            ['Label', 'Value'],
-            ['Disco', 55]
+    google.charts.setOnLoadCallback(drawChartMemoria7);
+
+    function drawChartMemoria7() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('number', 'x');
+        data.addColumn('number', 'Uso da memória');
+        data.addColumn('number', 'color band 1');
+        data.addColumn('number', 'color band 2');
+        data.addColumn('number', 'color band 3');
+
+        var y = 8;
+        // fill with 30 rows of random data
+        for (var i = 7; i >= 0; i--) {
+            y = Math.random() * 16;
+
+            data.addRow([{
+                v: i,
+                f: (i != 0) ? `${i} dias atrás` : 'Hoje'
+            }, {
+                v: y,
+                f: `${y.toFixed(2)}GB`
+            }, 12, 2.4, 1.6]);
+        }
+
+        var chart = new google.visualization.LineChart(document.getElementById('graficoMemoria7'));
+
+        chart.draw(data, {
+            height: 224,
+            width: 432,
+            chartArea: {
+                width: 272,
+                left: 40
+            },
+            title: 'Média de uso da memória nos últimos 7 dias',
+            titleTextStyle: {
+                fontName: 'Quantico',
+                color: '#2c2c2c',
+                fontSize: 15
+            },
+            legend: {
+                textStyle: {
+                    fontName: 'Changa',
+                    color: '#2c2c2c',
+                }
+            },
+            isStacked: true,
+            vAxis: {
+                minValue: 0,
+                maxValue: 16,
+                title: 'Média de uso (%)',
+                titleTextStyle: {
+                    fontName: 'Changa',
+                    color: '#6b6b6b'
+                },
+                ticks: [0, 4, 8, 12, 16]
+            },
+            hAxis: {
+                direction: -1,
+                minValue: 7,
+                maxValue: 1,
+                title: 'Dias atrás',
+                titleTextStyle: {
+                    fontName: 'Changa',
+                    color: '#6b6b6b'
+                },
+                ticks: [7, 6, 5, 4, 3, 2, 1, 0]
+            },
+            series: {
+                0: {
+                    type: 'line',
+                    color: '#000'
+                },
+                1: {
+                    lineWidth: 0,
+                    type: 'area',
+                    visibleInLegend: false,
+                    enableInteractivity: false,
+                    color: '#0fa958'
+
+                },
+                2: {
+                    lineWidth: 0,
+                    type: 'area',
+                    visibleInLegend: false,
+                    enableInteractivity: false,
+                    color: '#ffc700'
+                },
+                3: {
+                    lineWidth: 0,
+                    type: 'area',
+                    visibleInLegend: false,
+                    enableInteractivity: false,
+                    color: '#f21e1e'
+                }
+            }
+        });
+    }
+
+    google.charts.setOnLoadCallback(drawChartMemoria24);
+
+    function drawChartMemoria24() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('number', 'x');
+        data.addColumn('number', 'Uso da memória');
+        data.addColumn('number', 'color band 1');
+        data.addColumn('number', 'color band 2');
+        data.addColumn('number', 'color band 3');
+
+        var y = 8;
+        // fill with 30 rows of random data
+        for (var i = 24; i >= 0; i--) {
+            y = Math.random() * 16;
+
+            data.addRow([{
+                v: i,
+                f: (i != 0) ? `${i} horas atrás` : 'Agora'
+            }, {
+                v: y,
+                f: `${y.toFixed(2)}GB`
+            }, 12, 2.4, 1.6]);
+        }
+
+        var chart = new google.visualization.LineChart(document.getElementById('graficoMemoria24'));
+
+        chart.draw(data, {
+            height: 224,
+            width: 432,
+            chartArea: {
+                width: 272,
+                left: 40
+            },
+            title: 'Uso da memória nas últimas 24 horas',
+            titleTextStyle: {
+                fontName: 'Quantico',
+                color: '#2c2c2c',
+                fontSize: 15
+            },
+            legend: {
+                textStyle: {
+                    fontName: 'Changa',
+                    color: '#2c2c2c',
+                }
+            },
+            isStacked: true,
+            vAxis: {
+                minValue: 0,
+                maxValue: 16,
+                title: 'Memória utilizada (GB)',
+                titleTextStyle: {
+                    fontName: 'Changa',
+                    color: '#6b6b6b'
+                },
+                ticks: [0, 4, 8, 12, 16],
+            },
+            hAxis: {
+                direction: -1,
+                minValue: 24,
+                maxValue: 0,
+                title: 'Horas atrás',
+                titleTextStyle: {
+                    fontName: 'Changa',
+                    color: '#6b6b6b'
+                },
+                ticks: [24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
+            },
+            series: {
+                0: {
+                    type: 'line',
+                    color: '#000'
+                },
+                1: {
+                    lineWidth: 0,
+                    type: 'area',
+                    visibleInLegend: false,
+                    enableInteractivity: false,
+                    color: '#0fa958'
+
+                },
+                2: {
+                    lineWidth: 0,
+                    type: 'area',
+                    visibleInLegend: false,
+                    enableInteractivity: false,
+                    color: '#ffc700'
+                },
+                3: {
+                    lineWidth: 0,
+                    type: 'area',
+                    visibleInLegend: false,
+                    enableInteractivity: false,
+                    color: '#f21e1e'
+                }
+            }
+        });
+    }
+
+    //  ======================================= GRÁFICOS DISCO =======================================
+
+    google.charts.setOnLoadCallback(drawChartDisco30);
+
+    function drawChartDisco30() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('number', 'x');
+        data.addColumn('number', 'Uso da capacidade');
+        data.addColumn('number', 'color band 1');
+        data.addColumn('number', 'color band 2');
+        data.addColumn('number', 'color band 3');
+
+        var y = 50;
+        // fill with 30 rows of random data
+        for (var i = 30; i >= 0; i--) {
+            y += Math.ceil(Math.random() * 5) * Math.pow(-1, Math.ceil(Math.random() * 2));
+            if (y < 0) {
+                y = 10;
+            }
+            if (y > 100) {
+                y = 90;
+            }
+
+            data.addRow([{
+                v: i,
+                f: (i != 0) ? `${i} dias atrás` : 'Hoje'
+            }, {
+                v: y,
+                f: `${y}%`
+            }, 75, 15, 10]);
+        }
+
+        var chart = new google.visualization.LineChart(document.getElementById('graficoDisco30'));
+
+        chart.draw(data, {
+            height: 224,
+            width: 432,
+            chartArea: {
+                width: 272,
+                left: 40
+            },
+            title: 'Uso da capacidade do disco nos últimos 30 dias',
+            titleTextStyle: {
+                fontName: 'Quantico',
+                color: '#2c2c2c',
+                fontSize: 15
+            },
+            legend: {
+                textStyle: {
+                    fontName: 'Changa',
+                    color: '#2c2c2c',
+                }
+            },
+            isStacked: true,
+            vAxis: {
+                title: 'Espaço utilizado (%)',
+                titleTextStyle: {
+                    fontName: 'Changa',
+                    color: '#6b6b6b'
+                },
+                ticks: [0, 25, 50, 75, 100]
+            },
+            hAxis: {
+                direction: -1,
+                minValue: 7,
+                maxValue: 1,
+                title: 'Dias atrás',
+                titleTextStyle: {
+                    fontName: 'Changa',
+                    color: '#6b6b6b'
+                },
+                ticks: [30, 25, 20, 15, 10, 5, 0]
+            },
+            series: {
+                0: {
+                    type: 'line',
+                    color: '#000'
+                },
+                1: {
+                    lineWidth: 0,
+                    type: 'area',
+                    visibleInLegend: false,
+                    enableInteractivity: false,
+                    color: '#0fa958'
+
+                },
+                2: {
+                    lineWidth: 0,
+                    type: 'area',
+                    visibleInLegend: false,
+                    enableInteractivity: false,
+                    color: '#ffc700'
+                },
+                3: {
+                    lineWidth: 0,
+                    type: 'area',
+                    visibleInLegend: false,
+                    enableInteractivity: false,
+                    color: '#f21e1e'
+                }
+            }
+        });
+    }
+
+    google.charts.setOnLoadCallback(drawChartDiscoAgora);
+
+    function drawChartDiscoAgora() {
+        var data = google.visualization.arrayToDataTable([
+            ['Espaço', 'GB'],
+            ['Espaço utilizado', {
+                v: 11,
+                f: '11GB'
+            }],
+            ['Espaço livre', {
+                v: 2,
+                f: '2GB'
+            }]
         ]);
 
-        var chart = new google.visualization.Gauge(document.getElementById('graficoDisco'));
+        var porcentagem = data.Tf[0].c[1].v * 100 / (data.Tf[0].c[1].v + data.Tf[1].c[1].v);
+        if (porcentagem < 75) {
+            var cor = '#0fa958'
+        } else if (porcentagem < 90) {
+            var cor = '#ffc700'
+        } else {
+            var cor = '#f21e1e'
+        }
 
-        chart.draw(dataDisco, options);
+        var options = {
+            height: 224,
+            width: 432,
+            chartArea: {
+                width: 272,
+                left: 40
+            },
+            title: 'Uso atual do armazenamento do disco',
+            titleTextStyle: {
+                fontName: 'Quantico',
+                color: '#2c2c2c',
+                fontSize: 15
+            },
+            legend: {
+                textStyle: {
+                    fontName: 'Changa',
+                    color: '#2c2c2c',
+                }
+            },
+            fontName: 'Changa',
+            fontSize: 12,
+            pieSliceBorderColor: 'none',
+            slices: {
+                0: {
+                    color: cor,
+                    textStyle: {
+                        color: 'white'
+                    }
+                },
+                1: {
+                    color: '#e5e5e5',
+                    textStyle: {
+                        color: '#2c2c2c'
+                    }
+                }
+            }
+        };
 
-        setInterval(function() {
-            dataDisco.setValue(0, 1, 40 + Math.round(60 * Math.random()));
-            chart.draw(dataDisco, options);
-        }, 1000);
+        var chart = new google.visualization.PieChart(document.getElementById('graficoDiscoAgora'));
+        chart.draw(data, options);
+    }
+
+
+
+    //  ======================================= GRÁFICO HISTÓRICO =======================================
+
+    google.charts.setOnLoadCallback(drawTableHistorico);
+
+    function drawTableHistorico() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Site');
+        data.addColumn('string', 'Tempo');
+        data.addColumn('string', 'Último Acesso');
+        data.addRows([
+            ['Facebook', '01:22:31', '09/11/21 - 13:02:57'],
+            ['Instagram', '01:22:31', '09/11/21 - 13:02:57'],
+            ['Twitter', '01:22:31', '09/11/21 - 13:02:57']
+        ]);
+
+        var table = new google.visualization.Table(document.getElementById('tabelaHistorico'));
+
+        table.draw(data, {
+            height: 128,
+            width: 432,
+        });
     }
 </script>
