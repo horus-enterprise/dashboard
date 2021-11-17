@@ -117,7 +117,7 @@ a {
 /* ======================================= MODAL ======================================= */
 
 .modal {
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: center;
     position: fixed;
@@ -230,7 +230,7 @@ a {
 
 .btnSitesAcessados {
     display: flex;
-    align-self: center;
+    align-self: flex-start;
     align-items: center;
     justify-content: space-between;
     width: fit-content;

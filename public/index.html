@@ -143,16 +143,14 @@
                     </div>
                 </div>
                 <div class="componente">
-                    <div class="descComponente">
-                        <h2>Informações</h2>
-                        <p id="lblNmFuncionario"><b>Funcionário:</b> Gerivaldo Júnior</p>
-                        <p id="lblTempoLogado"><b>Tempo logado:</b> 03:24:32</p>
-                        <div class="btnSitesAcessados" onclick="document.getElementById('tabelaHistorico').style.display = 'flex';">
-                            <span class="iconify" data-icon="mdi:web" style="color: white; margin-right: 8px;" data-height="16"></span>
-                            <span>Verificar Sites Acessados</span>
-                        </div>
-                        <div id="tabelaHistorico" class="grafico" style="display: none;"></div>
+                    <h2>Informações</h2>
+                    <p id="lblNmFuncionario"><b>Funcionário:</b> Gerivaldo Júnior</p>
+                    <p id="lblTempoLogado"><b>Tempo logado:</b> 03:24:32</p>
+                    <div class="btnSitesAcessados" onclick="document.getElementById('tabelaHistorico').style.display = 'flex';">
+                        <span class="iconify" data-icon="mdi:web" style="color: white; margin-right: 8px;" data-height="16"></span>
+                        <span>Verificar Sites Acessados</span>
                     </div>
+                    <div id="tabelaHistorico" class="grafico" style="display: none; width: 100%;"></div>
                 </div>
             </div>
         </div>
@@ -189,7 +187,7 @@
     function drawChartProcessador7() {
         var data = new google.visualization.DataTable();
         data.addColumn('number', 'x');
-        data.addColumn('number', 'Uso da CPU');
+        data.addColumn('number', 'Uso da\nCPU');
         data.addColumn('number', 'color band 1');
         data.addColumn('number', 'color band 2');
         data.addColumn('number', 'color band 3');
@@ -221,9 +219,9 @@
             width: 432,
             chartArea: {
                 width: 272,
-                left: 40
+                left: 56
             },
-            title: 'Média de uso da CPU nos últimos 30 dias',
+            title: 'Média de uso da CPU nos últimos 7 dias',
             titleTextStyle: {
                 fontName: 'Quantico',
                 color: '#2c2c2c',
@@ -291,7 +289,7 @@
     function drawChartProcessadorTemp() {
         var data = new google.visualization.DataTable();
         data.addColumn('number', 'x');
-        data.addColumn('number', 'Temperatura da CPU');
+        data.addColumn('number', 'Temperatura\nda CPU');
         data.addColumn('number', 'color band 1');
         data.addColumn('number', 'color band 2');
         data.addColumn('number', 'color band 3');
@@ -323,7 +321,7 @@
             width: 432,
             chartArea: {
                 width: 272,
-                left: 40
+                left: 56
             },
             title: 'Temperatura da CPU nas últimas 24 horas',
             titleTextStyle: {
@@ -355,7 +353,7 @@
                     fontName: 'Changa',
                     color: '#6b6b6b'
                 },
-                ticks: [24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
+                ticks: [24, 21, 18, 15, 12, 9, 6, 3, 0]
             },
             series: {
                 0: {
@@ -397,7 +395,7 @@
     function drawChartMemoria7() {
         var data = new google.visualization.DataTable();
         data.addColumn('number', 'x');
-        data.addColumn('number', 'Uso da memória');
+        data.addColumn('number', 'Uso da\nmemória');
         data.addColumn('number', 'color band 1');
         data.addColumn('number', 'color band 2');
         data.addColumn('number', 'color band 3');
@@ -423,7 +421,7 @@
             width: 432,
             chartArea: {
                 width: 272,
-                left: 40
+                left: 56
             },
             title: 'Média de uso da memória nos últimos 7 dias',
             titleTextStyle: {
@@ -495,7 +493,7 @@
     function drawChartMemoria24() {
         var data = new google.visualization.DataTable();
         data.addColumn('number', 'x');
-        data.addColumn('number', 'Uso da memória');
+        data.addColumn('number', 'Uso da\nmemória');
         data.addColumn('number', 'color band 1');
         data.addColumn('number', 'color band 2');
         data.addColumn('number', 'color band 3');
@@ -521,7 +519,7 @@
             width: 432,
             chartArea: {
                 width: 272,
-                left: 40
+                left: 56
             },
             title: 'Uso da memória nas últimas 24 horas',
             titleTextStyle: {
@@ -555,7 +553,7 @@
                     fontName: 'Changa',
                     color: '#6b6b6b'
                 },
-                ticks: [24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
+                ticks: [24, 21, 18, 15, 12, 9, 6, 3, 0]
             },
             series: {
                 0: {
@@ -595,7 +593,7 @@
     function drawChartDisco30() {
         var data = new google.visualization.DataTable();
         data.addColumn('number', 'x');
-        data.addColumn('number', 'Uso da capacidade');
+        data.addColumn('number', 'Uso da\ncapacidade');
         data.addColumn('number', 'color band 1');
         data.addColumn('number', 'color band 2');
         data.addColumn('number', 'color band 3');
@@ -627,7 +625,7 @@
             width: 432,
             chartArea: {
                 width: 272,
-                left: 40
+                left: 56
             },
             title: 'Uso da capacidade do disco nos últimos 30 dias',
             titleTextStyle: {
@@ -719,10 +717,6 @@
         var options = {
             height: 224,
             width: 432,
-            chartArea: {
-                width: 272,
-                left: 40
-            },
             title: 'Uso atual do armazenamento do disco',
             titleTextStyle: {
                 fontName: 'Quantico',
@@ -779,7 +773,7 @@
 
         table.draw(data, {
             height: 128,
-            width: 432,
+            width: '100%',
         });
     }
 </script>
