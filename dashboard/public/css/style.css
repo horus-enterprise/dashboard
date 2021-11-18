@@ -1,0 +1,531 @@
+@import url('https://fonts.googleapis.com/css2?family=Changa&family=Quantico&display=swap');
+body {
+    display: flex;
+    flex-direction: row;
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.container {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 44px;
+}
+
+
+/* ======================================= NAVBAR ======================================= */
+
+.navbar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    background-color: #2C2C2C;
+    height: 100vh;
+    min-width: 128px;
+}
+
+.btnSair {
+    background-color: #F3B20F;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 4px 12px;
+    width: 64px;
+    border-radius: 4px;
+    margin: 9px 0;
+    font-family: 'Changa', sans-serif;
+    color: #2C2C2C;
+    font-size: 16px;
+}
+
+
+/* ======================================= HOME ======================================= */
+
+.divPesquisa {
+    display: flex;
+    flex-direction: row;
+}
+
+.divPesquisa input {
+    outline: none;
+    height: 38.4px;
+    border: 1px solid #2C2C2C;
+    border-radius: 4px;
+    font-family: 'Changa', sans-serif;
+    padding: 0 8px;
+    width: 416px;
+}
+
+.search {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #F3B20F;
+    height: 38.4px;
+    width: 38.4px;
+    border-radius: 4px;
+    margin-left: 24px;
+    cursor: pointer;
+}
+
+.divComputadores {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+    margin-top: 32px;
+    overflow-y: scroll;
+    height: calc(100vh - 96px - 32px - 38.4px);
+}
+
+.computador {
+    border: 1px solid #2C2C2C;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 16px;
+    margin: 0 8px 8px 0;
+    height: 176px;
+    width: 176px;
+    cursor: pointer;
+}
+
+.computador h2 {
+    font-family: 'Quantico', sans-serif;
+    color: #2C2C2C;
+    margin: 0;
+    font-weight: bold;
+    font-size: 24px;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+}
+
+.computador img {
+    width: 104px;
+}
+
+
+/* ======================================= MODAL ======================================= */
+
+.modal {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    z-index: 100000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.conteudoModal {
+    background-color: white;
+    padding: 48px;
+    border-radius: 12px;
+    width: 70.5vw;
+}
+
+.tituloModal {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: fit-content;
+    margin-bottom: 32px;
+}
+
+.tituloModal>h1 {
+    margin: 0;
+    font-family: 'Quantico', sans-serif;
+    color: #2C2C2C;
+    margin-right: 16px;
+}
+
+.tituloModal p {
+    margin: 0;
+    margin-left: 16px;
+    font-family: 'Changa', sans-serif;
+    color: #6B6B6B;
+    font-size: 2em;
+}
+
+#fecharModal {
+    position: absolute;
+    color: #6B6B6B;
+    margin-left: 67.5%;
+    font-size: 2em;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+#fecharModal:hover,
+#fecharModal:focus {
+    color: #2C2C2C;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.cardsComponentes {
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    max-height: calc(85vh - 48px - 48px - 32px);
+}
+
+.componente {
+    border: 1px solid #2C2C2C;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 16px;
+    width: auto;
+    margin: 8px;
+}
+
+.componente h2 {
+    font-family: 'Quantico', sans-serif;
+    color: #2C2C2C;
+    margin-top: 0;
+    margin-bottom: 16px;
+    height: 36px;
+}
+
+.componente b {
+    font-family: 'Quantico', sans-serif;
+    color: #2C2C2C;
+}
+
+.componente p {
+    font-family: 'Changa';
+    color: #6B6B6B;
+    margin: 0;
+}
+
+.graficos {
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.grafico {
+    display: flex;
+    height: auto;
+}
+
+#tabelaHistorico {
+    width: 100%;
+}
+
+.btnSitesAcessados {
+    display: flex;
+    align-self: flex-start;
+    align-items: center;
+    justify-content: space-between;
+    width: fit-content;
+    padding: 0 8px;
+    margin-top: 18px;
+    margin-bottom: 12px;
+    border-radius: 4px;
+    background-color: #F3B20F;
+    color: white;
+    font-family: 'Changa', sans-serif;
+    cursor: pointer;
+}
+
+
+/* ======================================= RELATÓRIO ======================================= */
+
+.formGeracaoRelatorio h1,
+.formGeracaoRelatorio h2,
+.formGeracaoRelatorio h3 {
+    margin: 0;
+    font-family: 'Quantico';
+    color: #2C2C2C;
+    font-weight: bold;
+}
+
+.formGeracaoRelatorio h1 {
+    font-size: 40px;
+}
+
+.formGeracaoRelatorio h2 {
+    font-size: 24px;
+    margin-bottom: 4px;
+    margin-top: 20px;
+}
+
+.formGeracaoRelatorio h3 {
+    font-size: 16px;
+}
+
+.formGeracaoRelatorio select {
+    outline: none;
+    height: 38.4px;
+    border: 1px solid #2C2C2C;
+    border-radius: 4px;
+    font-family: 'Changa', sans-serif;
+    color: #2C2C2C;
+    padding: 0 8px;
+    width: 224px;
+}
+
+#cmbFuncionario {
+    width: 544px;
+}
+
+.datasRelatorio {
+    display: flex;
+    flex-direction: row;
+}
+
+.datasRelatorio input {
+    outline: none;
+    height: 38.4px;
+    border: 1px solid #2C2C2C;
+    border-radius: 4px;
+    font-family: 'Changa', sans-serif;
+    color: #2C2C2C;
+    padding: 0 8px;
+    width: 224px;
+}
+
+#dtpInicio {
+    margin-right: 32px;
+}
+
+.checkbox {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    font-family: 'Changa', sans-serif;
+    color: #6B6B6B;
+}
+
+.checkbox label {
+    margin-left: 8px;
+    margin-right: 16px;
+}
+
+.botoesRelatorio {
+    display: flex;
+    flex-direction: row;
+    margin-top: 28px;
+}
+
+.botoesRelatorio div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    font-family: 'Changa', sans-serif;
+    padding: 4px 8px;
+    cursor: pointer;
+    margin-right: 32px;
+}
+
+.botoesRelatorio div .iconify {
+    margin-right: 8px;
+}
+
+.btnLimpar {
+    border: 1px solid #F21E1E;
+    color: #F21E1E;
+    background-color: white;
+}
+
+.btnGerarRelatorio {
+    color: white;
+    background-color: #F3B20F;
+}
+
+
+/* ========================================== OPERADOR ========================================== */
+
+.formCadastrarOperador h1,
+.formCadastrarOperador h2 {
+    margin: 0;
+    font-family: 'Quantico';
+    color: #2C2C2C;
+    font-weight: bold;
+}
+
+.formCadastrarOperador h1 {
+    font-size: 40px;
+}
+
+.formCadastrarOperador h2 {
+    font-size: 24px;
+    margin-bottom: 4px;
+    margin-top: 20px;
+}
+
+.formCadastrarOperador input {
+    outline: none;
+    height: 38.4px;
+    border: 1px solid #2C2C2C;
+    border-radius: 4px;
+    font-family: 'Changa', sans-serif;
+    color: #2C2C2C;
+    padding: 0 8px;
+    width: 288px;
+}
+
+.botoesOperador {
+    display: flex;
+    flex-direction: row;
+    margin-top: 28px;
+}
+
+.botoesOperador div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    font-family: 'Changa', sans-serif;
+    padding: 4px 8px;
+    cursor: pointer;
+    margin-right: 32px;
+}
+
+.botoesOperador div .iconify {
+    margin-right: 8px;
+}
+
+.btnLimpar {
+    border: 1px solid #F21E1E;
+    color: #F21E1E;
+    background-color: white;
+}
+
+.btnCadastrarOperador {
+    color: white;
+    background-color: #F3B20F;
+}
+
+
+/* ================================= FORMULÁRIOS DE CADASTRO E LOGIN ================================= */
+
+.formularios {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 0 64px;
+}
+
+.card {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    height: fit-content;
+    /* border: 1px solid #2C2C2C; */
+    border-radius: 12px;
+    box-shadow: 12px 22px 50px 5px rgba(44, 44, 44, 0.75)
+}
+
+.card .container {
+    flex: 1;
+}
+
+.card h2,
+.card label {
+    font-family: 'Quantico', sans-serif;
+    color: #2C2C2C;
+    font-weight: bold;
+    width: 100%;
+}
+
+.card h2 {
+    margin: 0;
+    margin-bottom: 32px;
+}
+
+.card input,
+.card select {
+    outline: none;
+    height: 38.4px;
+    border: 1px solid #2C2C2C;
+    border-radius: 4px;
+    font-family: 'Changa', sans-serif;
+    color: #2C2C2C;
+    padding: 0 8px;
+    width: 100%;
+    margin-bottom: 16px;
+}
+
+.card input {
+    width: calc(100% - 18px);
+}
+
+#cmbUFEmpresa,
+#txtNumEmpresa {
+    width: 52px;
+}
+
+.btnForm {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 38.4px;
+    width: calc(100% - 18px);
+    padding: 0 8px;
+    border-radius: 4px;
+    border: 1px solid #F3B20F;
+    font-family: 'Changa';
+    color: white;
+    cursor: pointer;
+}
+
+.btnAmareloForm {
+    background-color: #F3B20F;
+    margin-top: 16px;
+}
+
+.btnBrancoForm {
+    background-color: white;
+    color: #F3B20F;
+    margin-top: 4px;
+}
+
+.linha {
+    background-color: #6B6B6B;
+    width: 2px;
+    border-radius: 4px;
+}
+
+.linha1 {
+    height: 288px;
+}
+
+.linha2 {
+    height: 320px
+}
+
+.linha3 {
+    height: 384px;
+}
+
+.card .img1 {
+    width: 274px;
+}
+
+.card .img2 {
+    width: 406px;
+}
+
+.card .img3 {
+    height: 421px;
+}

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.iconify.design/2/2.0.3/iconify.min.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="icon shortcut" href="./img/logo.svg">
+    <title>Dashboard</title>
+</head>
+
+<body>
+    <div class="navbar">
+        <span class="iconify" data-icon="bx:bxs-user-circle" style="color: #f3b20f;" data-height="48"></span>
+        <a href="./index.html"><span class="iconify" data-icon="fluent:home-24-filled" style="color: #6b6b6b;" data-height="48"></span></a>
+        <a href="./operador.html"><span class="iconify" data-icon="clarity:employee-group-solid" style="color: #6b6b6b;" data-height="48"></span></a>
+        <a href="./relatorio.html"><span class="iconify" data-icon="carbon:report" style="color: white;" data-height="48"></span></a>
+        <a href="./login.html">
+            <div class="btnSair">
+                <span class="iconify" data-icon="uil:exit" style="color: #2c2c2c;" data-height="24"></span>
+                <span>SAIR</span>
+            </div>
+        </a>
+    </div>
+
+    <div class="container">
+        <div class="formGeracaoRelatorio">
+            <h1>Gerar Relatório</h1>
+
+            <h2>Funcionário:</h2>
+            <select id="cmbFuncionario">
+                <option value="1234">Gerivaldo Júnior</option>
+                <option value="4321">Mário Gomes</option>
+                <option value="5678">Rogério Costa</option>
+            </select>
+
+            <h2>Período:</h2>
+            <div class="datasRelatorio">
+                <div class="data">
+                    <h3>Data Início:</h3>
+                    <input type="date" id="dtpInicio">
+                </div>
+                <div class="data">
+                    <h3>Data Término:</h3>
+                    <input type="date" id="dtpTermino">
+                </div>
+            </div>
+
+            <h2>Componentes:</h2>
+            <div class="checkbox">
+                <input type="checkbox" id="chkProcessador" value="Processador">
+                <label for="chkProcessador">Processador</label>
+                <input type="checkbox" id="chkMemoria" value="Memória">
+                <label for="chkMemoria">Memória</label>
+                <input type="checkbox" id="chkDisco" value="Disco">
+                <label for="chkDisco">Disco</label>
+                <input type="checkbox" id="chkTrafego" value="Tráfego Web">
+                <label for="chkTrafego">Tráfego Web</label>
+            </div>
+
+            <h2>Alertas:</h2>
+            <div class="checkbox">
+                <input type="checkbox" id="chkCritico" value="Alertas Críticos">
+                <label for="chkCritico">Alertas Críticos</label>
+                <input type="checkbox" id="chkEmergencial" value="Alertas Emergencias">
+                <label for="chkEmergencial">Alertas Emergencias</label>
+                <input type="checkbox" id="chkNormal" value="Alertas Normais">
+                <label for="chkNormal">Alertas Normais</label>
+            </div>
+
+            <div class="botoesRelatorio">
+                <div class="btnLimpar">
+                    <span class="iconify" data-icon="akar-icons:trash-can" style="color: #f21e1e;" data-height="24"></span>
+                    <span>Limpar</span>
+                </div>
+                <div class="btnGerarRelatorio">
+                    <span class="iconify" data-icon="carbon:report" style="color: white;" data-height="24"></span>
+                    <span>Gerar Relatório</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
