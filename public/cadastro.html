@@ -14,22 +14,22 @@
     <div class="card">
         <div class="container">
             <h2>Cadastrar Supervisor</h2>
-            <div style="display: flex; flex-direction: row;">
+            <form style="display: flex; flex-direction: row;" method="POST">
                 <div style="margin-right: 24px; flex: 5;">
                     <label for="txtNomeCadastro">Nome:</label>
-                    <input id="txtNomeCadastro" type="text" placeholder="Digite seu nome...">
+                    <input id="txtNomeCadastro" name="txtNomeCadastroHTML" type="text" placeholder="Digite seu nome...">
                     <label for="txtCodigoCadastro">Código da Empresa:</label>
-                    <input id="txtCodigoCadastro" type="text" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx">
+                    <input id="txtCodigoCadastro" name="txtCodigoCadastroHTML" type="text" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx">
                 </div>
                 <div style="flex: 5;">
                     <label for="txtEmailCadastro">Email:</label>
-                    <input id="txtEmailCadastro" type="email" placeholder="Digite seu email...">
+                    <input id="txtEmailCadastro" name="txtEmailCadastroHTML" type="email" placeholder="Digite seu email...">
                     <label for="txtSenhaCadastro">Senha:</label>
-                    <input id="txtSenhaCadastro" type="password" placeholder="Digite sua senha...">
+                    <input id="txtSenhaCadastro" name="txtSenhaCadastroHTML" type="password" placeholder="Digite sua senha...">
                     <label for="txtConfirmSenhaCadastro">Confirmar Senha:</label>
-                    <input id="txtConfirmSenhaCadastro" type="password" placeholder="Digite novamente sua senha...">
+                    <input id="txtConfirmSenhaCadastro" name="txtConfirmSenhaCadastroHTML" type="password" placeholder="Digite novamente sua senha...">
                 </div>
-            </div>
+            </form>
             <div id="btnCadastrar" class="btnForm btnAmareloForm" onclick="cadastrarSupervisor()">
                 <span>Cadastrar</span>
             </div>

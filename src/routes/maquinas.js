@@ -11,12 +11,8 @@ router.get("/listar/:fkEmpresa", function(req, res) {
     maquinaController.listar(req, res);
 });
 
-router.get("/listarCPU/:fkEmpresa/:idMaquina", function(req, res) {
-    maquinaController.listarCPU(req, res);
-});
-
-router.get("/listarDisco/:fkEmpresa/:idMaquina", function(req, res) {
-    maquinaController.listarDisco(req, res);
+router.get("/listarDescComponentes/:fkEmpresa/:idMaquina", function(req, res) {
+    maquinaController.listarDescComponentes(req, res);
 });
 
 module.exports = router;

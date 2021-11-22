@@ -98,6 +98,18 @@ a {
     cursor: pointer;
 }
 
+.orderCritico {
+    order: 1;
+}
+
+.orderEmergencial {
+    order: 2;
+}
+
+.orderNormal {
+    order: 3;
+}
+
 .computador h2 {
     font-family: 'Quantico', sans-serif;
     color: #2C2C2C;

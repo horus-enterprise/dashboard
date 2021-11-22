@@ -12,27 +12,27 @@ router.get("/listarUptime/:fkEmpresa/:idMaquina", function(req, res) {
 });
 
 router.get("/listarUsoCPU7/:fkEmpresa/:idMaquina", function(req, res) {
-    maquinaController.listarUsoCPU7(req, res);
+    hardwareController.listarUsoCPU7(req, res);
 });
 
 router.get("/listarTemperaturaCPU24/:fkEmpresa/:idMaquina", function(req, res) {
-    maquinaController.listarTemperaturaCPU24(req, res);
+    hardwareController.listarTemperaturaCPU24(req, res);
 });
 
 router.get("/listarUsoMemoria7/:fkEmpresa/:idMaquina", function(req, res) {
-    maquinaController.listarUsoMemoria7(req, res);
+    hardwareController.listarUsoMemoria7(req, res);
 });
 
 router.get("/listarUsoMemoria24/:fkEmpresa/:idMaquina", function(req, res) {
-    maquinaController.listarUsoMemoria24(req, res);
+    hardwareController.listarUsoMemoria24(req, res);
 });
 
 router.get("/listarUsoDisco30/:fkEmpresa/:idMaquina", function(req, res) {
-    maquinaController.listarUsoDisco30(req, res);
+    hardwareController.listarUsoDisco30(req, res);
 });
 
 router.get("/listarUsoDiscoAgora/:fkEmpresa/:idMaquina", function(req, res) {
-    maquinaController.listarUsoDiscoAgora(req, res);
+    hardwareController.listarUsoDiscoAgora(req, res);
 });
 
 module.exports = router;

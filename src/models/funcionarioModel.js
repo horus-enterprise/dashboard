@@ -40,5 +40,5 @@ module.exports = {
     entrar,
     cadastrarSupervisor,
     cadastrarOperador,
-    listar,
+    listar
 };

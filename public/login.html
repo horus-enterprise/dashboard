@@ -12,12 +12,12 @@
 
 <body class="formularios">
     <div class="card">
-        <div class="container">
+        <form class="container" method="POST" id="formLogin">
             <h2>Login</h2>
             <label for="txtEmailLogin">Email:</label>
-            <input id="txtEmailLogin" type="email" placeholder="Digite seu email...">
+            <input id="txtEmailLogin" name="txtEmailLoginHTML" type="email" placeholder="Digite seu email...">
             <label for="txtSenhaLogin">Senha:</label>
-            <input id="txtSenhaLogin" type="password" placeholder="Digite sua senha...">
+            <input id="txtSenhaLogin" name="txtSenhaLoginHTML" type="password" placeholder="Digite sua senha...">
             <div id="btnEntrar" class="btnForm btnAmareloForm" onclick="logar()">
                 <span>Entrar</span>
             </div>
@@ -26,7 +26,7 @@
                     <span>Não tem uma conta? Cadastre-se!</span>
                 </div>
             </a>
-        </div>
+        </form>
         <div class="linha linha1"></div>
         <div class="container">
             <img class="img1" src="./img/login.svg" alt="Imagem de login">
@@ -38,13 +38,25 @@
 
 <script>
     function logar() {
+        var formulario = new URLSearchParams(new FormData(formLogin));
         if (!document.getElementById("txtEmailLogin").value == "" || !document.getElementById("txtSenhaLogin").value == "") {
-            if (document.getElementById("txtEmailLogin").value == "admin" &&
-                document.getElementById("txtSenhaLogin").value == "admin") {
-                window.location.href = "./index.html";
-            } else {
-                alert("Login ou senha inválidos!")
-            }
+            fetch("/funcionarios/entrar", {
+                method: "POST",
+                body: formulario
+            }).then(res => {
+                if (res.ok) {
+                    res.json()
+                        .then(json => {
+                            sessionStorage.setItem("idSupervisor", json.idFuncionario);
+                            sessionStorage.setItem("nomeSupervisor", json.nomeFuncionario);
+                            sessionStorage.setItem("fkEmpresa", json.fkEmpresa);
+
+                            window.location.href = "./index.html";
+                        });
+                } else {
+                    alert("Login ou senha inválidos!")
+                }
+            });
         } else {
             alert("Algum campo está em branco!");
         }

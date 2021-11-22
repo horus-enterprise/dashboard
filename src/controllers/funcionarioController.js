@@ -25,8 +25,8 @@ function listar(req, res) {
 }
 
 function entrar(req, res) {
-    var email = req.body.email;
-    var senha = req.body.senha;
+    var email = req.body.txtEmailLoginHTML;
+    var senha = req.body.txtSenhaLoginHTML;
 
     if (email == undefined) {
         res.status(400).send("Seu email está undefined!");
@@ -93,9 +93,9 @@ function cadastrarSupervisor(req, res) {
 }
 
 function cadastrarOperador(req, res) {
-    var nome = req.body.nome;
-    var email = req.body.email;
-    var senha = req.body.senha;
+    var nome = req.body.txtNomeOperadorHTML;
+    var email = req.body.txtEmailOperadorHTML;
+    var senha = req.body.txtSenhaOperadorHTML;
     var fkEmpresa = req.params.fkEmpresa;
     var fkSupervisor = req.params.fkSupervisor;
 

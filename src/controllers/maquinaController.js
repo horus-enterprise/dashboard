@@ -30,16 +30,16 @@ function listar(req, res) {
     }
 }
 
-function listarCPU(req, res) {
-    var id = req.params.idMaquina;
+function listarDescComponentes(req, res) {
     var fkEmpresa = req.params.fkEmpresa;
+    var id = req.params.idMaquina;
 
     if (id == undefined) {
         res.status(400).send("ID da máquina está undefined!");
     } else if (fkEmpresa == undefined) {
         res.status(400).send("Sua fkEmpresa está undefined!");
     } else {
-        maquinaModel.listarCPU(id, fkEmpresa)
+        maquinaModel.listarDescComponentes(fkEmpresa, id)
             .then(
                 function(resultado) {
                     res.json(resultado);
@@ -48,34 +48,7 @@ function listarCPU(req, res) {
                 function(erro) {
                     console.log(erro);
                     console.log(
-                        "\nHouve um erro ao recuperar os dados da CPU! Erro: ",
-                        erro.sqlMessage
-                    );
-                    res.status(500).json(erro.sqlMessage);
-                }
-            );
-    }
-}
-
-function listarDisco(req, res) {
-    var id = req.params.idMaquina;
-    var fkEmpresa = req.params.fkEmpresa;
-
-    if (id == undefined) {
-        res.status(400).send("ID da máquina está undefined!");
-    } else if (fkEmpresa == undefined) {
-        res.status(400).send("Sua fkEmpresa está undefined!");
-    } else {
-        maquinaModel.listarDisco(id, fkEmpresa)
-            .then(
-                function(resultado) {
-                    res.json(resultado);
-                }
-            ).catch(
-                function(erro) {
-                    console.log(erro);
-                    console.log(
-                        "\nHouve um erro ao recuperar os dados do Disco! Erro: ",
+                        "\nHouve um erro ao recuperar os dados dos componentes! Erro: ",
                         erro.sqlMessage
                     );
                     res.status(500).json(erro.sqlMessage);
@@ -86,7 +59,6 @@ function listarDisco(req, res) {
 
 module.exports = {
     listar,
-    listarCPU,
-    listarDisco,
+    listarDescComponentes,
     testar
 }

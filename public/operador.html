@@ -27,32 +27,55 @@
     </div>
 
     <div class="container">
-        <div class="formCadastrarOperador">
+        <form class="formCadastrarOperador" method="POST" id="formCadastrarOperador">
             <h1>Cadastrar Operador</h1>
 
             <h2>Nome:</h2>
-            <input id="txtNomeOperador" type="text" placeholder="Digite o nome do operador...">
+            <input id="txtNomeOperador" name="txtNomeOperadorHTML" type="text" placeholder="Digite o nome do operador...">
 
             <h2>Email:</h2>
-            <input id="txtEmailOperador" type="email" placeholder="Digite o email do operador...">
+            <input id="txtEmailOperador" name="txtEmailOperadorHTML" type="email" placeholder="Digite o email do operador...">
 
             <h2>Senha:</h2>
-            <input id="txtSenhaOperador" type="password" placeholder="Digite uma senha temporária para o operador...">
+            <input id="txtSenhaOperador" name="txtSenhaOperadorHTML" type="password" placeholder="Digite uma senha temporária para o operador...">
 
             <h2>Confirmar Senha:</h2>
             <input id="txtConfirmSenhaOperador" type="password" placeholder="Confirme a senha...">
 
 
             <div class="botoesOperador">
-                <div class="btnLimpar">
+                <div class="btnLimpar" onclick="limpar()">
                     <span class="iconify" data-icon="akar-icons:trash-can" style="color: #f21e1e;" data-height="24"></span>
                     <span>Limpar</span>
                 </div>
-                <div class="btnCadastrarOperador">
+                <div class="btnCadastrarOperador" onclick="cadastrarOperador()">
                     <span class="iconify" data-icon="ant-design:save-outlined" style="color: white;" data-height="24"></span>
                     <span>Cadastrar Operador</span>
                 </div>
             </div>
-        </div>
+        </form>
     </div>
 </body>
+
+<script>
+    function cadastrarOperador() {
+        var formulario = new URLSearchParams(new FormData(formCadastrarOperador));
+        fetch(`/funcionarios/cadastrarOperador/${sessionStorage.getItem("fkEmpresa")}/${sessionStorage.getItem("idSupervisor")}`, {
+                method: "POST",
+                body: formulario
+            })
+            .then(res => {
+                if (res.ok) {
+                    alert("Operador cadastrado com sucesso!");
+                    limpar();
+                }
+            });
+    }
+
+    function limpar() {
+        document.getElementById("txtNomeOperador").value = "";
+        document.getElementById("txtEmailOperador").value = "";
+        document.getElementById("txtSenhaOperador").value = "";
+        document.getElementById("txtConfirmSenhaOperador").value = "";
+    }
+</script>

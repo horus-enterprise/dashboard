@@ -1,9 +1,9 @@
-var maquinaModel = require("../models/maquinaModel");
+var hardwareModel = require("../models/hardwareModel");
 
 var sessoes = [];
 
 function testar(req, res) {
-    console.log("ENTRAMOS NA maquinaController");
+    console.log("ENTRAMOS NA hardwareController");
     res.json("ESTAMOS FUNCIONANDO!");
 }
 
@@ -16,7 +16,7 @@ function listarUptime(req, res) {
     } else if (fkEmpresa == undefined) {
         res.status(400).send("Sua fkEmpresa está undefined!");
     } else {
-        maquinaModel.listarUptime(id, fkEmpresa)
+        hardwareModel.listarUptime(fkEmpresa, id)
             .then(
                 function(resultado) {
                     res.json(resultado);
@@ -43,7 +43,7 @@ function listarUsoCPU7(req, res) {
     } else if (fkEmpresa == undefined) {
         res.status(400).send("Sua fkEmpresa está undefined!");
     } else {
-        maquinaModel.listarUsoCPU7(id, fkEmpresa)
+        hardwareModel.listarUsoCPU7(fkEmpresa, id)
             .then(
                 function(resultado) {
                     res.json(resultado);
@@ -70,7 +70,7 @@ function listarTemperaturaCPU24(req, res) {
     } else if (fkEmpresa == undefined) {
         res.status(400).send("Sua fkEmpresa está undefined!");
     } else {
-        maquinaModel.listarTemperaturaCPU24(id, fkEmpresa)
+        hardwareModel.listarTemperaturaCPU24(fkEmpresa, id)
             .then(
                 function(resultado) {
                     res.json(resultado);
@@ -97,7 +97,7 @@ function listarUsoMemoria7(req, res) {
     } else if (fkEmpresa == undefined) {
         res.status(400).send("Sua fkEmpresa está undefined!");
     } else {
-        maquinaModel.listarMemoria7(id, fkEmpresa)
+        hardwareModel.listarMemoria7(fkEmpresa, id)
             .then(
                 function(resultado) {
                     res.json(resultado);
@@ -124,7 +124,7 @@ function listarUsoMemoria24(req, res) {
     } else if (fkEmpresa == undefined) {
         res.status(400).send("Sua fkEmpresa está undefined!");
     } else {
-        maquinaModel.listarUsoMemoria24(id, fkEmpresa)
+        hardwareModel.listarUsoMemoria24(fkEmpresa, id)
             .then(
                 function(resultado) {
                     res.json(resultado);
@@ -151,7 +151,7 @@ function listarUsoDisco30(req, res) {
     } else if (fkEmpresa == undefined) {
         res.status(400).send("Sua fkEmpresa está undefined!");
     } else {
-        maquinaModel.listarUsoDisco30(id, fkEmpresa)
+        hardwareModel.listarUsoDisco30(fkEmpresa, id)
             .then(
                 function(resultado) {
                     res.json(resultado);
@@ -178,7 +178,7 @@ function listarUsoDiscoAgora(req, res) {
     } else if (fkEmpresa == undefined) {
         res.status(400).send("Sua fkEmpresa está undefined!");
     } else {
-        maquinaModel.listarUsoDiscoAgora(id, fkEmpresa)
+        hardwareModel.listarUsoDiscoAgora(fkEmpresa, id)
             .then(
                 function(resultado) {
                     res.json(resultado);
