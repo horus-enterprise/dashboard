@@ -2,10 +2,10 @@
     "name": "projeto-horus",
     "version": "1.0.0",
     "description": "",
-    "main": "index.html",
+    "main": "login.html",
     "scripts": {
       "start": "node ./bin/www",
-      "dev": "nodemon --exec node app.js"
+      "dev": "nodemon --exec node login.html"
     },
     "dependencies": {
       "cors": "^2.8.5",
