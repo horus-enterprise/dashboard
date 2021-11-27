@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.iconify.design/2/2.0.3/iconify.min.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="icon shortcut" href="./img/logo.svg">
+    <title>Dashboard</title>
+</head>
+
+<body>
+    <div class="navbar">
+        <span class="iconify" data-icon="bx:bxs-user-circle" style="color: #f3b20f;" data-height="48"></span>
+        <a href="./index.html"><span class="iconify" data-icon="fluent:home-24-filled" style="color: white;" data-height="48"></span></a>
+        <a href="./operador.html"><span class="iconify" data-icon="clarity:employee-group-solid" style="color: #6b6b6b;" data-height="48"></span></a>
+        <a href="./relatorio.html"><span class="iconify" data-icon="carbon:report" style="color: #6b6b6b;" data-height="48"></span></a>
+        <a href="./login.html">
+            <div class="btnSair">
+                <span class="iconify" data-icon="uil:exit" style="color: #2c2c2c;" data-height="24"></span>
+                <span>SAIR</span>
+            </div>
+        </a>
+    </div>
+
+    <div class="container">
+        <div class="divPesquisa">
+            <input type="text" placeholder="Nome da máquina...">
+            <div class="search">
+                <span class="iconify" data-icon="ant-design:search-outlined" style="color: white;" data-height="19.2"></span>
+            </div>
+        </div>
+
+        <div class="divComputadores" id="divComputadores">
+
+        </div>
+    </div>
+
+    <div id="modalDetalhes" class="modal">
+        <div class="conteudoModal">
+            <div>
+                <div class="tituloModal">
+                    <h1 id="hostnameModal">{hostname}</h1>
+                    <span class="iconify" data-icon="akar-icons:clock" style="color: #2c2c2c;" data-height="48"></span>
+                    <p id="lblUptime">05:28:37</p>
+                    <span id="fecharModal">&cross;</span>
+                </div>
+            </div>
+            <div class="cardsComponentes">
+                <div id="divProcessador" class="componente">
+                    <h2 id="processadorModal">Processador</h2>
+                    <div class="graficos">
+                        <div id="graficoProcessador7" class="grafico"></div>
+                        <div id="graficoProcessadorTemp" class="grafico"></div>
+                    </div>
+                </div>
+                <div class="componente">
+                    <h2 id="memoriaModal">Memória RAM</h2>
+                    <div class="graficos">
+                        <div id="graficoMemoria7" class="grafico"></div>
+                        <div id="graficoMemoria24" class="grafico"></div>
+                    </div>
+                </div>
+                <div id="divDisco" class="componente">
+                    <h2 id="discoModal">Disco</h2>
+                    <div class="graficos">
+                        <div id="graficoDisco30" class="grafico"></div>
+                        <div id="graficoDiscoAgora" class="grafico"></div>
+                    </div>
+                </div>
+                <div class="componente">
+                    <h2>Informações</h2>
+                    <p id="lblNmFuncionario"><b>Funcionário:</b> Gerivaldo Júnior</p>
+                    <p id="lblTempoLogado"><b>Tempo logado:</b> 03:24:32</p>
+                    <div class="btnSitesAcessados" onclick="document.getElementById('tabelaHistorico').style.display = 'flex';">
+                        <span class="iconify" data-icon="mdi:web" style="color: white; margin-right: 8px;" data-height="16"></span>
+                        <span>Verificar Sites Acessados</span>
+                    </div>
+                    <div id="tabelaHistorico" class="grafico" style="display: none; width: 100%;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+
+<script src="./js/modal.js"></script>
+<script>
+    function getMaquinas(fkEmpresa) {
+        fetch(`/maquinas/listar/${fkEmpresa}`)
+            .then(res => {
+                if (res.ok) {
+                    res.json()
+                        .then(json => {
+                            for (let index = 0; index < json.length; index++) {
+                                if (json[index].cpuUso >= 90 || json[index].disco >= 90 || json[index].ram >= 90) {
+                                    document.getElementById("divComputadores").innerHTML += `
+                                        <div class="computador orderCritico" onclick="abrirModal(${json[index].idMaquina})">
+                                            <h2>${json[index].hostname}</h2>
+                                            <img src="./img/alertaCritico.svg" alt="Computador com alerta crítico">
+                                        </div>`
+                                } else if (json[index].cpuUso < 90 && json[index].cpuUso >= 75 || json[index].disco < 90 && json[index].disco >= 75 || json[index].ram < 90 && json[index].ram >= 75) {
+                                    document.getElementById("divComputadores").innerHTML += `
+                                        <div class="computador orderEmergencial" onclick="abrirModal(${json[index].idMaquina})">
+                                            <h2>${json[index].hostname}</h2>
+                                            <img src="./img/alertaEmergencial.svg" alt="Computador com alerta emergencial">
+                                        </div>`
+                                } else if (json[index].cpuUso < 75 || json[index].disco < 75 || json[index].ram < 75) {
+                                    document.getElementById("divComputadores").innerHTML += `
+                                        <div class="computador orderNormal" onclick="abrirModal(${json[index].idMaquina})">
+                                            <h2>${json[index].hostname}</h2>
+                                            <img src="./img/alertaNormal.svg" alt="Computador com alerta normal">
+                                        </div>`
+                                }
+                            }
+                        });
+                }
+            });
+    }
+
+    getMaquinas(sessionStorage.getItem("fkEmpresa"));
+</script>
