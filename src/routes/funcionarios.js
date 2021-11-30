@@ -11,6 +11,10 @@ router.get("/listar", function(req, res) {
     funcionarioController.listar(req, res);
 });
 
+router.get("/listarOperadores/:fkSupervisor", function(req, res) {
+    funcionarioController.listarOperadores(req, res);
+});
+
 router.post("/entrar", function(req, res) {
     funcionarioController.entrar(req, res);
 });

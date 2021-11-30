@@ -3,7 +3,16 @@ var database = require("../database/config")
 function listarUptime(fkEmpresa, idMaquina) {
     console.log("ACESSEI O HARDWARE MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function listar()", fkEmpresa);
     var instrucao = `
-        SELECT uptime FROM monitoramentoHardware inner join maquina on fkMaquina = idMaquina where fkEmpresa = ${fkEmpresa} and fkMaquina = ${idMaquina} order by dataHora desc limit 1;
+        SELECT top 1 uptime FROM monitoramentoHardware inner join maquina on fkMaquina = idMaquina where fkEmpresa = ${fkEmpresa} and fkMaquina = ${idMaquina} order by dataHora desc;
+    `;
+    console.log("Executando a instrução SQL: \n" + instrucao);
+    return database.executar(instrucao);
+}
+
+function listarTudoDatas(fkFuncionario, dataInicio, dataTermino) {
+    console.log("ACESSEI O HARDWARE MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function listar()");
+    var instrucao = `
+        SELECT nomeFuncionario, hostname, cpuUso, disco, ram, dataHora FROM maquina maq inner join monitoramentoHardware hardmon on hardmon.fkMaquina = maq.idMaquina inner join funcionario func on func.idFuncionario = hardmon.fkFuncionario where fkFuncionario = ${fkFuncionario} and dataHora >= '${dataInicio}' and dataHora <= '${dataTermino}';
     `;
     console.log("Executando a instrução SQL: \n" + instrucao);
     return database.executar(instrucao);
@@ -12,7 +21,7 @@ function listarUptime(fkEmpresa, idMaquina) {
 function listarUsoCPU7(fkEmpresa, idMaquina) {
     console.log("ACESSEI O HARDWARE MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function listar()", fkEmpresa);
     var instrucao = `
-        SELECT avg(cpuUso), dataHora FROM monitoramentoHardware inner join maquina on fkMaquina = idMaquina where fkEmpresa = ${fkEmpresa} and fkMaquina = ${idMaquina} group by MONTH(dataHora), DATE(dataHora) order by dataHora desc limit 8;
+        SELECT top 8 avg(cpuUso) as 'usoCPU', max(dataHora) as 'dataHora' FROM monitoramentoHardware inner join maquina on fkMaquina = idMaquina where fkEmpresa = ${fkEmpresa} and fkMaquina = ${idMaquina} group by DATEPART(MONTH, dataHora), DATEPART(DAY, dataHora) order by dataHora desc;
     `;
     console.log("Executando a instrução SQL: \n" + instrucao);
     return database.executar(instrucao);
@@ -21,7 +30,7 @@ function listarUsoCPU7(fkEmpresa, idMaquina) {
 function listarTemperaturaCPU24(fkEmpresa, idMaquina) {
     console.log("ACESSEI O HARDWARE MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function listar()", fkEmpresa);
     var instrucao = `
-        SELECT max(cpuTemperatura), dataHora FROM monitoramentoHardware inner join maquina on fkMaquina = idMaquina where fkEmpresa = ${fkEmpresa} and fkMaquina = ${idMaquina} group by MONTH(dataHora), DAY(dataHora), HOUR(dataHora) order by dataHora desc limit 25;
+        SELECT top 25 max(cpuTemperatura) as 'temperatura', max(dataHora) as 'dataHora' FROM monitoramentoHardware inner join maquina on fkMaquina = idMaquina where fkEmpresa = ${fkEmpresa} and fkMaquina = ${idMaquina} group by DATEPART(MONTH, dataHora), DATEPART(DAY, dataHora), DATEPART(HOUR, dataHora) order by dataHora desc;
     `;
     console.log("Executando a instrução SQL: \n" + instrucao);
     return database.executar(instrucao);
@@ -30,7 +39,7 @@ function listarTemperaturaCPU24(fkEmpresa, idMaquina) {
 function listarUsoMemoria7(fkEmpresa, idMaquina) {
     console.log("ACESSEI O HARDWARE MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function listar()", fkEmpresa);
     var instrucao = `
-        SELECT max(ram), dataHora FROM monitoramentoHardware inner join maquina on fkMaquina = idMaquina where fkEmpresa = ${fkEmpresa} and fkMaquina = ${idMaquina} group by MONTH(dataHora), DATE(dataHora) order by dataHora desc limit 31;
+        SELECT top 31 avg(ram) as 'ram', max(dataHora) as 'dataHora' FROM monitoramentoHardware inner join maquina on fkMaquina = idMaquina where fkEmpresa = ${fkEmpresa} and fkMaquina = ${idMaquina} group by DATEPART(MONTH, dataHora), DATEPART(DAY, dataHora) order by dataHora desc;
     `;
     console.log("Executando a instrução SQL: \n" + instrucao);
     return database.executar(instrucao);
@@ -39,7 +48,7 @@ function listarUsoMemoria7(fkEmpresa, idMaquina) {
 function listarUsoMemoria24(fkEmpresa, idMaquina) {
     console.log("ACESSEI O HARDWARE MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function listar()", fkEmpresa);
     var instrucao = `
-        SELECT max(ram), dataHora FROM monitoramentoHardware inner join maquina on fkMaquina = idMaquina where fkEmpresa = ${fkEmpresa} and fkMaquina = ${idMaquina} group by MONTH(dataHora), DAY(dataHora), HOUR(dataHora) order by dataHora desc limit 25;
+        SELECT top 25 max(ram) as 'ram', max(dataHora) as 'dataHora' FROM monitoramentoHardware inner join maquina on fkMaquina = idMaquina where fkEmpresa = ${fkEmpresa} and fkMaquina = ${idMaquina} group by DATEPART(MONTH, dataHora), DATEPART(DAY, dataHora), DATEPART(HOUR, dataHora) order by dataHora desc;
     `;
     console.log("Executando a instrução SQL: \n" + instrucao);
     return database.executar(instrucao);
@@ -48,7 +57,7 @@ function listarUsoMemoria24(fkEmpresa, idMaquina) {
 function listarUsoDisco30(fkEmpresa, idMaquina) {
     console.log("ACESSEI O HARDWARE MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function listar()", fkEmpresa);
     var instrucao = `
-        SELECT max(disco), dataHora FROM monitoramentoHardware inner join maquina on fkMaquina = idMaquina where fkEmpresa = ${fkEmpresa} and fkMaquina = ${idMaquina} group by MONTH(dataHora), DATE(dataHora) order by dataHora desc limit 31;
+        SELECT top 31 max(disco) as 'uso', max(dataHora) as 'dataHora' FROM monitoramentoHardware inner join maquina on fkMaquina = idMaquina where fkEmpresa = ${fkEmpresa} and fkMaquina = ${idMaquina} group by DATEPART(MONTH, dataHora), DATEPART(DAY, dataHora) order by dataHora desc;
     `;
     console.log("Executando a instrução SQL: \n" + instrucao);
     return database.executar(instrucao);
@@ -57,13 +66,14 @@ function listarUsoDisco30(fkEmpresa, idMaquina) {
 function listarUsoDiscoAgora(fkEmpresa, idMaquina) {
     console.log("ACESSEI O HARDWARE MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function listar()", fkEmpresa);
     var instrucao = `
-        SELECT disco, tamanhoDisco FROM monitoramentoHardware inner join maquina on fkMaquina = idMaquina where fkEmpresa = ${fkEmpresa} and fkMaquina = ${idMaquina} order by dataHora desc limit 1;
+        SELECT top 1 disco FROM monitoramentoHardware inner join maquina on fkMaquina = idMaquina where fkEmpresa = ${fkEmpresa} and fkMaquina = ${idMaquina} order by dataHora desc;
     `;
     console.log("Executando a instrução SQL: \n" + instrucao);
     return database.executar(instrucao);
 }
 
 module.exports = {
+    listarTudoDatas,
     listarUptime,
     listarUsoCPU7,
     listarTemperaturaCPU24,

@@ -14,7 +14,7 @@
     <div class="card">
         <div class="container">
             <h2>Cadastrar Supervisor</h2>
-            <form style="display: flex; flex-direction: row;" method="POST">
+            <form style="display: flex; flex-direction: row;" method="POST" id="formCadastroSupervisor">
                 <div style="margin-right: 24px; flex: 5;">
                     <label for="txtNomeCadastro">Nome:</label>
                     <input id="txtNomeCadastro" name="txtNomeCadastroHTML" type="text" placeholder="Digite seu nome...">
@@ -47,3 +47,32 @@
 </body>
 
 </html>
+
+<script>
+    function cadastrarSupervisor() {
+        var formulario = new URLSearchParams(new FormData(formCadastroSupervisor));
+        if (!document.getElementById("txtNomeCadastro").value == "" || !document.getElementById("txtEmailCadastro").value == "" ||
+            !document.getElementById("txtCodigoCadastro").value == "" || !document.getElementById("txtSenhaCadastro").value == "") {
+            if (document.getElementById("txtSenhaCadastro").value == document.getElementById("txtConfirmSenhaCadastro").value) {
+                fetch("/funcionarios/cadastrarSupervisor", {
+                    method: "POST",
+                    body: formulario
+                }).then(res => {
+                    if (res.ok) {
+                        res.json()
+                            .then(json => {
+                                alert("Supervisor cadastrado com sucesso!")
+                                window.location.href = "./login.html";
+                            });
+                    } else {
+                        alert("Houve um erro!")
+                    }
+                });
+            } else {
+                alert("Senhas não correspondem!");
+            }
+        } else {
+            alert("Algum campo está em branco!");
+        }
+    }
+</script>

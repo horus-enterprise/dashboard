@@ -1,9 +1,15 @@
 let modal = document.getElementById("modalDetalhes");
 let spanFechar = document.getElementById("fecharModal");
 
+var uptimeInterval;
 
 function abrirModal(idMaquina) {
     modal.style.display = "flex";
+    var uptime;
+    var segundos;
+    var voltas = 0;
+    var tamanhoRam;
+    var tamanhoDisco;
     fetch(`/maquinas/listarDescComponentes/${sessionStorage.getItem("fkEmpresa")}/${idMaquina}`)
         .then(res => {
             if (res.ok) {
@@ -14,12 +20,83 @@ function abrirModal(idMaquina) {
                         document.getElementById("memoriaModal").innerHTML = `Memória RAM - ${json[0].tamanhoRam}GB`;
                         document.getElementById("discoModal").innerHTML = `Disco ${json[0].modeloDisco} - ${json[0].tamanhoDisco}GB`;
 
-                        drawChartProcessador7();
-                        drawChartProcessadorTemp();
-                        drawChartMemoria7(json[0].tamanhoRam);
-                        drawChartMemoria24(json[0].tamanhoRam);
-                        drawChartDisco30();
+                        tamanhoRam = json[0].tamanhoRam;
+                        tamanhoDisco = json[0].tamanhoDisco;
+
                         drawTableHistorico();
+                    });
+            }
+        });
+
+    fetch(`/hardwares/listarUptime/${sessionStorage.getItem("fkEmpresa")}/${idMaquina}`)
+        .then(res => {
+            if (res.ok) {
+                res.json()
+                    .then(json => {
+                        uptime = json[0].uptime;
+                        document.getElementById("lblUptime").innerHTML = `${("0" + Math.floor(uptime / 3600)).slice(-2)}:${("0" + Math.floor(uptime % 3600 / 60)).slice(-2)}:${("0" + Math.floor(uptime % 3600 % 60)).slice(-2)}`;
+                        uptimeInterval = setInterval(() => {
+                            if (voltas == 0) {
+                                segundos = uptime + 1;
+                            }
+                            var h = Math.floor(segundos / 3600);
+                            var m = Math.floor(segundos % 3600 / 60);
+                            var s = Math.floor(segundos % 3600 % 60);
+
+                            document.getElementById("lblUptime").innerHTML = `${("0" + h).slice(-2)}:${("0" + m).slice(-2)}:${("0" + s).slice(-2)}`;
+                            segundos++;
+                            voltas++;
+                        }, 1000);
+                    });
+            }
+        });
+
+    fetch(`/hardwares/listarUsoCPU7/${sessionStorage.getItem("fkEmpresa")}/${idMaquina}`)
+        .then(res => {
+            if (res.ok) {
+                res.json()
+                    .then(json => {
+                        drawChartProcessador7(json);
+                    });
+            }
+        });
+
+    fetch(`/hardwares/listarTemperaturaCPU24/${sessionStorage.getItem("fkEmpresa")}/${idMaquina}`)
+        .then(res => {
+            if (res.ok) {
+                res.json()
+                    .then(json => {
+                        drawChartProcessadorTemp(json);
+                    });
+            }
+        });
+
+    fetch(`/hardwares/listarUsoMemoria7/${sessionStorage.getItem("fkEmpresa")}/${idMaquina}`)
+        .then(res => {
+            if (res.ok) {
+                res.json()
+                    .then(json => {
+                        drawChartMemoria7(tamanhoRam, json);
+                    });
+            }
+        });
+
+    fetch(`/hardwares/listarUsoMemoria24/${sessionStorage.getItem("fkEmpresa")}/${idMaquina}`)
+        .then(res => {
+            if (res.ok) {
+                res.json()
+                    .then(json => {
+                        drawChartMemoria24(tamanhoRam, json);
+                    });
+            }
+        });
+
+    fetch(`/hardwares/listarUsoDisco30/${sessionStorage.getItem("fkEmpresa")}/${idMaquina}`)
+        .then(res => {
+            if (res.ok) {
+                res.json()
+                    .then(json => {
+                        drawChartDisco30(json);
                     });
             }
         });
@@ -29,20 +106,30 @@ function abrirModal(idMaquina) {
             if (res.ok) {
                 res.json()
                     .then(json => {
-                        drawChartDiscoAgora(json[0].tamanhoDisco, json[0].disco);
+                        drawChartDiscoAgora(tamanhoDisco, json[0].disco);
                     });
             }
         });
 }
 spanFechar.onclick = () => {
-    modal.style.display = "none";
-    document.getElementById("tabelaHistorico").style.display = "none";
+    fecharModal();
 }
 
 window.onclick = function(event) {
     if (event.target == modal) {
-        modal.style.display = "none";
+        fecharModal();
     }
+}
+
+function fecharModal() {
+    modal.style.display = "none";
+    document.getElementById("tabelaHistorico").style.display = "none";
+    clearInterval(uptimeInterval);
+    document.getElementById("hostnameModal").innerHTML = `{hostname}`;
+    document.getElementById("lblUptime").innerHTML = `00:00:00`;
+    document.getElementById("processadorModal").innerHTML = `Processador`;
+    document.getElementById("memoriaModal").innerHTML = `Memória RAM`;
+    document.getElementById("discoModal").innerHTML = `Disco`;
 }
 
 // ======================================= GRÁFICOS PROCESSADOR =======================================
@@ -51,7 +138,7 @@ google.charts.load('45', {
     packages: ['corechart', 'table']
 });
 
-function drawChartProcessador7() {
+function drawChartProcessador7(json) {
     var data = new google.visualization.DataTable();
     data.addColumn('number', 'x');
     data.addColumn('number', 'Uso da\nCPU');
@@ -59,15 +146,21 @@ function drawChartProcessador7() {
     data.addColumn('number', 'color band 2');
     data.addColumn('number', 'color band 3');
 
-    var y = 50;
-    // fill with 30 rows of random data
-    for (var i = 7; i >= 0; i--) {
-        y += Math.ceil(Math.random() * 5) * Math.pow(-1, Math.ceil(Math.random() * 2));
-        if (y < 0) {
-            y = 10;
-        }
-        if (y > 100) {
-            y = 90;
+    var j = 0;
+    var y;
+    for (var i = 0; i <= 7; i++) {
+        var date = new Date();
+        date.setDate(date.getDate() - i);
+
+        if (j != json.length) {
+            if (date.getDate() == new Date(json[j].dataHora).getDate()) {
+                y = json[j].usoCPU;
+                j++;
+            } else {
+                y = 0;
+            }
+        } else {
+            y = 0;
         }
 
         data.addRow([{
@@ -152,7 +245,7 @@ function drawChartProcessador7() {
 }
 
 
-function drawChartProcessadorTemp() {
+function drawChartProcessadorTemp(json) {
     var data = new google.visualization.DataTable();
     data.addColumn('number', 'x');
     data.addColumn('number', 'Temperatura\nda CPU');
@@ -160,15 +253,21 @@ function drawChartProcessadorTemp() {
     data.addColumn('number', 'color band 2');
     data.addColumn('number', 'color band 3');
 
-    var y = 50;
-    // fill with 30 rows of random data
-    for (var i = 24; i >= 0; i--) {
-        y += Math.ceil(Math.random() * 5) * Math.pow(-1, Math.ceil(Math.random() * 2));
-        if (y < 0) {
-            y = 10;
-        }
-        if (y > 100) {
-            y = 90;
+    var j = 0;
+    var y;
+    for (var i = 0; i <= 24; i++) {
+        var date = new Date();
+        date.setHours(date.getHours() - i);
+
+        if (j != json.length) {
+            if (date.getHours() == new Date(json[j].dataHora).getHours()) {
+                y = json[j].temperatura;
+                j++;
+            } else {
+                y = 0;
+            }
+        } else {
+            y = 0;
         }
 
         data.addRow([{
@@ -257,7 +356,7 @@ function drawChartProcessadorTemp() {
 // ======================================= GRÁFICOS MEMÓRIA =======================================
 
 
-function drawChartMemoria7(tamanhoRam) {
+function drawChartMemoria7(tamanhoRam, json) {
     var data = new google.visualization.DataTable();
     data.addColumn('number', 'x');
     data.addColumn('number', 'Uso da\nmemória');
@@ -265,9 +364,22 @@ function drawChartMemoria7(tamanhoRam) {
     data.addColumn('number', 'color band 2');
     data.addColumn('number', 'color band 3');
 
-    // fill with 30 rows of random data
-    for (var i = 7; i >= 0; i--) {
-        y = Math.random() * tamanhoRam;
+    var j = 0;
+    var y;
+    for (var i = 0; i <= 7; i++) {
+        var date = new Date();
+        date.setDate(date.getDate() - i);
+
+        if (j != json.length) {
+            if (date.getDate() == new Date(json[j].dataHora).getDate()) {
+                y = (tamanhoRam * json[j].ram) / 100;
+                j++;
+            } else {
+                y = 0;
+            }
+        } else {
+            y = 0;
+        }
 
         data.addRow([{
             v: i,
@@ -303,7 +415,7 @@ function drawChartMemoria7(tamanhoRam) {
         vAxis: {
             minValue: 0,
             maxValue: tamanhoRam,
-            title: 'Média de uso (%)',
+            title: 'Média de uso (GB)',
             titleTextStyle: {
                 fontName: 'Changa',
                 color: '#6b6b6b'
@@ -353,7 +465,7 @@ function drawChartMemoria7(tamanhoRam) {
 }
 
 
-function drawChartMemoria24(tamanhoRam) {
+function drawChartMemoria24(tamanhoRam, json) {
     var data = new google.visualization.DataTable();
     data.addColumn('number', 'x');
     data.addColumn('number', 'Uso da\nmemória');
@@ -361,10 +473,22 @@ function drawChartMemoria24(tamanhoRam) {
     data.addColumn('number', 'color band 2');
     data.addColumn('number', 'color band 3');
 
-    var y = 8;
-    // fill with 30 rows of random data
-    for (var i = 24; i >= 0; i--) {
-        y = Math.random() * tamanhoRam;
+    var j = 0;
+    var y;
+    for (var i = 0; i <= 24; i++) {
+        var date = new Date();
+        date.setHours(date.getHours() - i);
+
+        if (j != json.length) {
+            if (date.getHours() == new Date(json[j].dataHora).getHours()) {
+                y = (tamanhoRam * json[j].ram) / 100;
+                j++;
+            } else {
+                y = 0;
+            }
+        } else {
+            y = 0;
+        }
 
         data.addRow([{
             v: i,
@@ -410,7 +534,7 @@ function drawChartMemoria24(tamanhoRam) {
         hAxis: {
             direction: -1,
             minValue: 24,
-            maxValue: 0,
+            maxValue: 1,
             title: 'Horas atrás',
             titleTextStyle: {
                 fontName: 'Changa',
@@ -452,7 +576,7 @@ function drawChartMemoria24(tamanhoRam) {
 //  ======================================= GRÁFICOS DISCO =======================================
 
 
-function drawChartDisco30() {
+function drawChartDisco30(json) {
     var data = new google.visualization.DataTable();
     data.addColumn('number', 'x');
     data.addColumn('number', 'Uso da\ncapacidade');
@@ -460,15 +584,21 @@ function drawChartDisco30() {
     data.addColumn('number', 'color band 2');
     data.addColumn('number', 'color band 3');
 
-    var y = 50;
-    // fill with 30 rows of random data
-    for (var i = 30; i >= 0; i--) {
-        y += Math.ceil(Math.random() * 5) * Math.pow(-1, Math.ceil(Math.random() * 2));
-        if (y < 0) {
-            y = 10;
-        }
-        if (y > 100) {
-            y = 90;
+    var j = 0;
+    var y;
+    for (var i = 0; i <= 30; i++) {
+        var date = new Date();
+        date.setDate(date.getDate() - i);
+
+        if (j != json.length) {
+            if (date.getDate() == new Date(json[j].dataHora).getDate()) {
+                y = json[j].uso;
+                j++;
+            } else {
+                y = 0;
+            }
+        } else {
+            y = 0;
         }
 
         data.addRow([{

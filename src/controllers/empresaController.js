@@ -1,4 +1,26 @@
 var empresaModel = require("../models/empresaModel");
+const nodemailer = require("nodemailer");
+const { v4: uuidv4 } = require('uuid');
+
+async function mandarEmail(email, uuid) {
+
+    let transporter = nodemailer.createTransport({
+        host: "smtp-mail.outlook.com",
+        port: 587,
+        secure: false,
+        auth: {
+            user: "212-2a-grupo7@bandtec.com.br",
+            pass: "#Gfgrupo7"
+        }
+    });
+
+    transporter.sendMail({
+        from: '"Horus Enterprise" <212-2a-grupo7@bandtec.com.br>',
+        to: `${email}`,
+        subject: "Cadastro da sua empresa foi realizado",
+        text: `Você acaba de se cadastrar no nosso sistema Horus. Aqui está seu código para cadastrar novos usuários: ${uuid}`
+    });
+}
 
 var sessoes = [];
 
@@ -25,16 +47,17 @@ function listar(req, res) {
 }
 
 function cadastrarEmpresa(req, res) {
-    var nome = req.body.nome;
-    var email = req.body.email;
-    var telefone = req.body.telefone;
-    var cnpj = req.body.cnpj;
-    var cep = req.body.cep;
-    var uf = req.body.uf;
-    var cidade = req.body.cidade;
-    var bairro = req.body.bairro;
-    var logradouro = req.body.logradouro;
-    var numero = req.body.numero;
+    var nome = req.body.nomeHTML;
+    var email = req.body.emailHTML;
+    var telefone = req.body.telefoneHTML;
+    var cnpj = req.body.cnpjHTML;
+    var cep = req.body.cepHTML;
+    var uf = req.body.ufHTML;
+    var cidade = req.body.cidadeHTML;
+    var bairro = req.body.bairroHTML;
+    var logradouro = req.body.logradouroHTML;
+    var numero = req.body.numeroHTML;
+    var uuid = uuidv4();
 
     if (nome == undefined) {
         res.status(400).send("Seu nome está undefined!");
@@ -57,10 +80,11 @@ function cadastrarEmpresa(req, res) {
     } else if (numero == undefined) {
         res.status(400).send("Seu numero está undefined!");
     } else {
-        empresaModel.cadastrarEmpresa(nome, email, telefone, cnpj, cep, uf, cidade, bairro, logradouro, numero)
+        empresaModel.cadastrarEmpresa(nome, email, telefone, cnpj, cep, uf, cidade, bairro, logradouro, numero, uuid)
             .then(
                 function(resultado) {
                     res.json(resultado);
+                    mandarEmail(email, uuid).catch(console.error);
                 }
             ).catch(
                 function(erro) {
