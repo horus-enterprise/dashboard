@@ -9,6 +9,15 @@ function listarUptime(fkEmpresa, idMaquina) {
     return database.executar(instrucao);
 }
 
+function listarTudoDatas(fkFuncionario, dataInicio, dataTermino) {
+    console.log("ACESSEI O HARDWARE MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function listar()");
+    var instrucao = `
+        SELECT nomeFuncionario, hostname, cpuUso, disco, ram, dataHora FROM maquina maq inner join monitoramentoHardware hardmon on hardmon.fkMaquina = maq.idMaquina inner join funcionario func on func.idFuncionario = hardmon.fkFuncionario where fkFuncionario = ${fkFuncionario} and dataHora >= '${dataInicio}' and dataHora <= '${dataTermino}';
+    `;
+    console.log("Executando a instrução SQL: \n" + instrucao);
+    return database.executar(instrucao);
+}
+
 function listarUsoCPU7(fkEmpresa, idMaquina) {
     console.log("ACESSEI O HARDWARE MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function listar()", fkEmpresa);
     var instrucao = `
@@ -64,6 +73,7 @@ function listarUsoDiscoAgora(fkEmpresa, idMaquina) {
 }
 
 module.exports = {
+    listarTudoDatas,
     listarUptime,
     listarUsoCPU7,
     listarTemperaturaCPU24,

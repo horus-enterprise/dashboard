@@ -7,6 +7,32 @@ function testar(req, res) {
     res.json("ESTAMOS FUNCIONANDO!");
 }
 
+function listarTudoDatas(req, res) {
+    var fkFuncionario = req.body.fkFuncionario;
+    var dataInicio = req.body.dataInicio;
+    var dataTermino = req.body.dataTermino;
+
+    if (fkFuncionario == undefined) {
+        res.status(400).send("Sua fkFuncionario está undefined!");
+    } else {
+        hardwareModel.listarTudoDatas(fkFuncionario, dataInicio, dataTermino)
+            .then(
+                function(resultado) {
+                    res.json(resultado);
+                }
+            ).catch(
+                function(erro) {
+                    console.log(erro);
+                    console.log(
+                        "\nHouve um erro ao recuperar os dados de tudo! Erro: ",
+                        erro.sqlMessage
+                    );
+                    res.status(500).json(erro.sqlMessage);
+                }
+            );
+    }
+}
+
 function listarUptime(req, res) {
     var id = req.params.idMaquina;
     var fkEmpresa = req.params.fkEmpresa;
@@ -197,6 +223,7 @@ function listarUsoDiscoAgora(req, res) {
 }
 
 module.exports = {
+    listarTudoDatas,
     listarUptime,
     listarUsoCPU7,
     listarTemperaturaCPU24,

@@ -7,6 +7,10 @@ router.get("/", function(req, res) {
     hardwareController.testar(req, res);
 });
 
+router.post("/listarTudoDatas", function(req, res) {
+    hardwareController.listarTudoDatas(req, res);
+});
+
 router.get("/listarUptime/:fkEmpresa/:idMaquina", function(req, res) {
     hardwareController.listarUptime(req, res);
 });
