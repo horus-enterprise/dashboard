@@ -34,6 +34,7 @@ a {
 
 .btnSair {
     background-color: #F3B20F;
+    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -482,7 +483,7 @@ a {
     width: calc(100% - 18px);
 }
 
-#cmbUFEmpresa,
+#txtUFEmpresa,
 #txtNumEmpresa {
     width: 52px;
 }

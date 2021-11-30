@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="icon shortcut" href="./img/logo.svg">
+    <title>Dashboard</title>
+</head>
+
+<body class="formularios">
+    <div class="card">
+        <form class="container" method="POST" id="formLogin">
+            <h2>Login</h2>
+            <label for="txtEmailLogin">Email:</label>
+            <input id="txtEmailLogin" name="txtEmailLoginHTML" type="email" placeholder="Digite seu email...">
+            <label for="txtSenhaLogin">Senha:</label>
+            <input id="txtSenhaLogin" name="txtSenhaLoginHTML" type="password" placeholder="Digite sua senha...">
+            <div id="btnEntrar" class="btnForm btnAmareloForm" onclick="logar()">
+                <span>Entrar</span>
+            </div>
+            <a href="./cadastro.html">
+                <div class="btnForm btnBrancoForm">
+                    <span>Não tem uma conta? Cadastre-se!</span>
+                </div>
+            </a>
+        </form>
+        <div class="linha linha1"></div>
+        <div class="container">
+            <img class="img1" src="./img/login.svg" alt="Imagem de login">
+        </div>
+    </div>
+</body>
+
+</html>
+
+<script>
+    function logar() {
+        var formulario = new URLSearchParams(new FormData(formLogin));
+        if (!document.getElementById("txtEmailLogin").value == "" || !document.getElementById("txtSenhaLogin").value == "") {
+            fetch("/funcionarios/entrar", {
+                method: "POST",
+                body: formulario
+            }).then(res => {
+                if (res.ok) {
+                    res.json()
+                        .then(json => {
+                            sessionStorage.setItem("idSupervisor", json.idFuncionario);
+                            sessionStorage.setItem("nomeSupervisor", json.nomeFuncionario);
+                            sessionStorage.setItem("fkEmpresa", json.fkEmpresa);
+
+                            window.location.href = "./index.html";
+                        });
+                } else {
+                    alert("Login ou senha inválidos!")
+                }
+            });
+        } else {
+            alert("Algum campo está em branco!");
+        }
+    }
+</script>

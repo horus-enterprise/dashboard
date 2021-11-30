@@ -24,6 +24,25 @@ function listar(req, res) {
         );
 }
 
+function listarOperadores(req, res) {
+    var fkSupervisor = req.params.fkSupervisor;
+
+    funcionarioModel.listarOperadores(fkSupervisor)
+        .then(function(resultado) {
+            if (resultado.length > 0) {
+                res.status(200).json(resultado);
+            } else {
+                res.status(204).send("Nenhum resultado encontrado!")
+            }
+        }).catch(
+            function(erro) {
+                console.log(erro);
+                console.log("Houve um erro ao realizar a consulta! Erro: ", erro.sqlMessage);
+                res.status(500).json(erro.sqlMessage);
+            }
+        );
+}
+
 function entrar(req, res) {
     var email = req.body.txtEmailLoginHTML;
     var senha = req.body.txtSenhaLoginHTML;
@@ -60,10 +79,10 @@ function entrar(req, res) {
 }
 
 function cadastrarSupervisor(req, res) {
-    var nome = req.body.nome;
-    var email = req.body.email;
-    var senha = req.body.senha;
-    var fkEmpresa = req.body.empresa;
+    var nome = req.body.txtNomeCadastroHTML;
+    var email = req.body.txtEmailCadastroHTML;
+    var senha = req.body.txtSenhaCadastroHTML;
+    var uuid = req.body.txtCodigoCadastroHTML;
 
     if (nome == undefined) {
         res.status(400).send("Seu nome está undefined!");
@@ -71,10 +90,10 @@ function cadastrarSupervisor(req, res) {
         res.status(400).send("Seu email está undefined!");
     } else if (senha == undefined) {
         res.status(400).send("Sua senha está undefined!");
-    } else if (fkEmpresa == undefined) {
-        res.status(400).send("Sua fkEmpresa está undefined!");
+    } else if (uuid == undefined) {
+        res.status(400).send("Sua uuid está undefined!");
     } else {
-        funcionarioModel.cadastrarSupervisor(nome, email, senha, fkEmpresa)
+        funcionarioModel.cadastrarSupervisor(nome, email, senha, uuid)
             .then(
                 function(resultado) {
                     res.json(resultado);
@@ -133,5 +152,6 @@ module.exports = {
     cadastrarSupervisor,
     cadastrarOperador,
     listar,
+    listarOperadores,
     testar
 }

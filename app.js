@@ -1,5 +1,5 @@
-//process.env.AMBIENTE_PROCESSO = "desenvolvimento";
-process.env.AMBIENTE_PROCESSO = "producao";
+process.env.AMBIENTE_PROCESSO = "desenvolvimento";
+// process.env.AMBIENTE_PROCESSO = "producao";
 
 var express = require("express");
 var cors = require("cors");
@@ -13,6 +13,7 @@ var funcionarioRouter = require("./src/routes/funcionarios");
 var empresaRouter = require("./src/routes/empresas");
 var maquinaRouter = require("./src/routes/maquinas");
 var hardwareRouter = require("./src/routes/hardwares");
+var webmonRouter = require("./src/routes/webmon");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -25,6 +26,7 @@ app.use("/funcionarios", funcionarioRouter);
 app.use("/empresas", empresaRouter);
 app.use("/maquinas", maquinaRouter);
 app.use("/hardwares", hardwareRouter);
+app.use("/webmon", webmonRouter);
 
 app.listen(PORTA, function() {
     console.log(`Servidor do site está rodando rodando: http://localhost:${PORTA} \n

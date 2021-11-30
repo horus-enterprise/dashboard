@@ -9,6 +9,15 @@ function listar() {
     return database.executar(instrucao);
 }
 
+function listarOperadores(fkSupervisor) {
+    console.log("ACESSEI O FUNCIONARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function listarOperadores()", fkSupervisor);
+    var instrucao = `
+        SELECT nomeFuncionario, idFuncionario FROM funcionario where fkSupervisor = ${fkSupervisor};
+    `;
+    console.log("Executando a instrução SQL: \n" + instrucao);
+    return database.executar(instrucao);
+}
+
 function entrar(email, senha) {
     console.log("ACESSEI O FUNCIONARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function entrar(): ", email, senha)
     var instrucao = `
@@ -18,10 +27,13 @@ function entrar(email, senha) {
     return database.executar(instrucao);
 }
 
-function cadastrarSupervisor(nome, email, senha, fkEmpresa) {
-    console.log("ACESSEI O FUNCIONARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function cadastrarSupervisor():", nome, email, senha, fkEmpresa);
+function cadastrarSupervisor(nome, email, senha, uuid) {
+    console.log("ACESSEI O FUNCIONARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function cadastrarSupervisor():", nome, email, senha, uuid);
     var instrucao = `
-        INSERT INTO funcionario (nomeFuncionario, email, senha, fkEmpresa) VALUES ('${nome}', '${email}', '${senha}', '${fkEmpresa}');
+        INSERT INTO funcionario (nomeFuncionario, email, senha, fkEmpresa) 
+        VALUES ('${nome}', '${email}', '${senha}',
+            (select idEmpresa from empresa where uuid = '${uuid}')
+        );
     `;
     console.log("Executando a instrução SQL: \n" + instrucao);
     return database.executar(instrucao);
@@ -40,5 +52,6 @@ module.exports = {
     entrar,
     cadastrarSupervisor,
     cadastrarOperador,
-    listar
+    listar,
+    listarOperadores
 };

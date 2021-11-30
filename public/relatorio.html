@@ -12,18 +12,18 @@
     <title>Dashboard</title>
 </head>
 
-<body>
+<script src="./js/logado.js"></script>
+
+<body onload="isLogado()">
     <div class="navbar">
         <span class="iconify" data-icon="bx:bxs-user-circle" style="color: #f3b20f;" data-height="48"></span>
         <a href="./index.html"><span class="iconify" data-icon="fluent:home-24-filled" style="color: #6b6b6b;" data-height="48"></span></a>
         <a href="./operador.html"><span class="iconify" data-icon="clarity:employee-group-solid" style="color: #6b6b6b;" data-height="48"></span></a>
         <a href="./relatorio.html"><span class="iconify" data-icon="carbon:report" style="color: white;" data-height="48"></span></a>
-        <a href="./login.html">
-            <div class="btnSair">
-                <span class="iconify" data-icon="uil:exit" style="color: #2c2c2c;" data-height="24"></span>
-                <span>SAIR</span>
-            </div>
-        </a>
+        <div class="btnSair" onclick="sair()">
+            <span class="iconify" data-icon="uil:exit" style="color: #2c2c2c;" data-height="24"></span>
+            <span>SAIR</span>
+        </div>
     </div>
 
     <div class="container">
@@ -32,9 +32,7 @@
 
             <h2>Funcionário:</h2>
             <select id="cmbFuncionario">
-                <option value="1234">Gerivaldo Júnior</option>
-                <option value="4321">Mário Gomes</option>
-                <option value="5678">Rogério Costa</option>
+                
             </select>
 
             <h2>Período:</h2>
@@ -72,11 +70,11 @@
             </div>
 
             <div class="botoesRelatorio">
-                <div class="btnLimpar">
+                <div class="btnLimpar" onclick="limpar()">
                     <span class="iconify" data-icon="akar-icons:trash-can" style="color: #f21e1e;" data-height="24"></span>
                     <span>Limpar</span>
                 </div>
-                <div class="btnGerarRelatorio">
+                <div class="btnGerarRelatorio" onclick="gerarRelatorio()">
                     <span class="iconify" data-icon="carbon:report" style="color: white;" data-height="24"></span>
                     <span>Gerar Relatório</span>
                 </div>
@@ -84,3 +82,36 @@
         </div>
     </div>
 </body>
+
+<script>
+    fetch(`/funcionarios/listarOperadores/${sessionStorage.getItem("idSupervisor")}`)
+        .then(res => {
+            if (res.ok) {
+                res.json()
+                    .then(json => {
+                        if (json.length == 0) {
+                            document.getElementById("cmbFuncionario").innerHTML = `<option value=null>Vazio</option>`;
+                        } else {
+                            for (let i = 0; i < json.length; i++) {
+                                document.getElementById("cmbFuncionario").innerHTML += `<option value=${json[i].idFuncionario}>${json[i].nomeFuncionario}</option>`;
+                            }
+                        }
+                    });
+            } else {
+                document.getElementById("cmbFuncionario").innerHTML = `<option value=null>Vazio</option>`;
+            }
+        });
+
+    function limpar() {
+        document.getElementById("cmbFuncionario").value = "";
+        document.getElementById("dtpInicio").value = "";
+        document.getElementById("dtpTermino").value = "";
+        document.getElementById("chkProcessador").checked = false;
+        document.getElementById("chkMemoria").checked = false;
+        document.getElementById("chkDisco").checked = false;
+        document.getElementById("chkTrafego").checked = false;
+        document.getElementById("chkCritico").checked = false;
+        document.getElementById("chkEmergencial").checked = false;
+        document.getElementById("chkNormal").checked = false;
+    }
+</script>

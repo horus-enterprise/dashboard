@@ -97,7 +97,7 @@ function listarUsoMemoria7(req, res) {
     } else if (fkEmpresa == undefined) {
         res.status(400).send("Sua fkEmpresa está undefined!");
     } else {
-        hardwareModel.listarMemoria7(fkEmpresa, id)
+        hardwareModel.listarUsoMemoria7(fkEmpresa, id)
             .then(
                 function(resultado) {
                     res.json(resultado);
