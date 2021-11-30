@@ -34,6 +34,32 @@ function listarHistorico(req, res) {
     }
 }
 
+function listarHistoricoDatas(req, res) {
+    var fkFuncionario = req.body.fkFuncionario;
+    var dataInicio = req.body.dataInicio;
+    var dataTermino = req.body.dataTermino;
+
+    if (fkFuncionario == undefined) {
+        res.status(400).send("Sua fkFuncionario está undefined!");
+    } else {
+        webmonModel.listarHistoricoDatas(fkFuncionario, dataInicio, dataTermino)
+            .then(
+                function(resultado) {
+                    res.json(resultado);
+                }
+            ).catch(
+                function(erro) {
+                    console.log(erro);
+                    console.log(
+                        "\nHouve um erro ao recuperar os dados do histórico web! Erro: ",
+                        erro.sqlMessage
+                    );
+                    res.status(500).json(erro.sqlMessage);
+                }
+            );
+    }
+}
+
 function cadastrarHistorico(req, res) {
     var id = req.body.idMaquina;
     var fkFuncionario = req.body.idFuncionario;
@@ -65,6 +91,7 @@ function cadastrarHistorico(req, res) {
 
 module.exports = {
     listarHistorico,
+    listarHistoricoDatas,
     cadastrarHistorico,
     testar
 }

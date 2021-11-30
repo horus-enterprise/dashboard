@@ -84,23 +84,26 @@
 </body>
 
 <script>
-    fetch(`/funcionarios/listarOperadores/${sessionStorage.getItem("idSupervisor")}`)
-        .then(res => {
-            if (res.ok) {
-                res.json()
-                    .then(json => {
-                        if (json.length == 0) {
-                            document.getElementById("cmbFuncionario").innerHTML = `<option value=null>Vazio</option>`;
-                        } else {
-                            for (let i = 0; i < json.length; i++) {
-                                document.getElementById("cmbFuncionario").innerHTML += `<option value=${json[i].idFuncionario}>${json[i].nomeFuncionario}</option>`;
-                            }
+    fetch(`/funcionarios/listarOperadores/${sessionStorage.getItem("idSupervisor")}`).then(res => {
+        if (res.ok) {
+            res.json()
+                .then(json => {
+                    if (json.length == 0) {
+                        document.getElementById("cmbFuncionario").innerHTML = `<option value=null>Vazio</option>`;
+                    } else {
+                        for (let i = 0; i < json.length; i++) {
+                            document.getElementById("cmbFuncionario").innerHTML += `<option value=${json[i].idFuncionario}>${json[i].nomeFuncionario}</option>`;
                         }
-                    });
-            } else {
-                document.getElementById("cmbFuncionario").innerHTML = `<option value=null>Vazio</option>`;
-            }
-        });
+                    }
+                });
+        } else {
+            document.getElementById("cmbFuncionario").innerHTML = `<option value=null>Vazio</option>`;
+        }
+    });
+
+    function gerarRelatorio() {
+
+    }
 
     function limpar() {
         document.getElementById("cmbFuncionario").value = "";
