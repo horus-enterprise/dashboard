@@ -25,7 +25,7 @@ function listarHistoricoDatas(fkFuncionario, dataInicio, dataTermino) {
 function cadastrarHistorico(fkFuncionario, idMaquina, url, dataHora) {
     console.log("ACESSEI O HARDWARE MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function listar()", fkFuncionario);
     var instrucao = `
-        INSERT INTO monitoramentoWeb values (${fkFuncionario}, ${idMaquina}, '${url}', '${dataHora}');
+        INSERT INTO monitoramentoWeb values (null, ${fkFuncionario}, ${idMaquina}, '${url}', '${dataHora}');
     `;
     console.log("Executando a instrução SQL: \n" + instrucao);
     return database.executar(instrucao);
