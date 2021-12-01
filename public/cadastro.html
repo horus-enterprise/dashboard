@@ -59,11 +59,8 @@
                     body: formulario
                 }).then(res => {
                     if (res.ok) {
-                        res.json()
-                            .then(json => {
-                                alert("Supervisor cadastrado com sucesso!")
-                                window.location.href = "./login.html";
-                            });
+                        alert("Supervisor cadastrado com sucesso!")
+                        window.location.href = "./login.html";
                     } else {
                         alert("Houve um erro!")
                     }

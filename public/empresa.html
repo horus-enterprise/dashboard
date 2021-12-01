@@ -97,12 +97,8 @@
             body: formulario
         }).then(res => {
             if (res.ok) {
-                res.json()
-                    .then(json => {
-                        alert("Obrigado por se cadastrar! Um email foi enviado para você com o código necessário para cadastrar usuários.");
-
-                        window.location.href = "./cadastro.html";
-                    });
+                alert("Obrigado por se cadastrar! Um email foi enviado para você com o código necessário para cadastrar usuários.");
+                window.location.href = "./cadastro.html";
             } else {
                 alert("Houve algum erro!");
             }
