@@ -3,6 +3,14 @@ let spanFechar = document.getElementById("fecharModal");
 
 var uptimeInterval;
 
+function msToHMS(ms) {
+    return new Date(ms).toISOString().substr(11, 8);
+}
+
+function secondsToHMS(secs) {
+    return new Date(secs * 1000).toISOString().substr(11, 8);
+}
+
 function abrirModal(idMaquina) {
     modal.style.display = "flex";
     var uptime;
@@ -34,16 +42,13 @@ function abrirModal(idMaquina) {
                 res.json()
                     .then(json => {
                         uptime = json[0].uptime;
-                        document.getElementById("lblUptime").innerHTML = `${("0" + Math.floor(uptime / 3600)).slice(-2)}:${("0" + Math.floor(uptime % 3600 / 60)).slice(-2)}:${("0" + Math.floor(uptime % 3600 % 60)).slice(-2)}`;
+                        document.getElementById("lblUptime").innerHTML = `${secondsToHMS(uptime)}`;
                         uptimeInterval = setInterval(() => {
                             if (voltas == 0) {
                                 segundos = uptime + 1;
                             }
-                            var h = Math.floor(segundos / 3600);
-                            var m = Math.floor(segundos % 3600 / 60);
-                            var s = Math.floor(segundos % 3600 % 60);
 
-                            document.getElementById("lblUptime").innerHTML = `${("0" + h).slice(-2)}:${("0" + m).slice(-2)}:${("0" + s).slice(-2)}`;
+                            document.getElementById("lblUptime").innerHTML = `${secondsToHMS(segundos)}`;
                             segundos++;
                             voltas++;
                         }, 1000);
@@ -107,6 +112,19 @@ function abrirModal(idMaquina) {
                 res.json()
                     .then(json => {
                         drawChartDiscoAgora(tamanhoDisco, json[0].disco);
+                    });
+            }
+        });
+
+    fetch(`/hardwares/listarTempoLogado/${sessionStorage.getItem("fkEmpresa")}/${idMaquina}`)
+        .then(res => {
+            if (res.ok) {
+                res.json()
+                    .then(json => {
+                        document.getElementById("lblNmFuncionario").innerHTML = `<b>Funcionário:</b> ${json[0].nomeFuncionario}`;
+                        var ms = new Date(json[0].max) - new Date(json[0].min);
+                        console.log(msToHMS(ms));
+                        document.getElementById("lblTempoLogado").innerHTML = `<b>Tempo logado:</b> ${msToHMS(ms)}`;
                     });
             }
         });

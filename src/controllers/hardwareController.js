@@ -225,6 +225,33 @@ function listarUsoDiscoAgora(req, res) {
     }
 }
 
+function listarTempoLogado(req, res) {
+    var id = req.params.idMaquina;
+    var fkEmpresa = req.params.fkEmpresa;
+
+    if (id == undefined) {
+        res.status(400).send("ID da máquina está undefined!");
+    } else if (fkEmpresa == undefined) {
+        res.status(400).send("Sua fkEmpresa está undefined!");
+    } else {
+        hardwareModel.listarTempoLogado(fkEmpresa, id)
+            .then(
+                function(resultado) {
+                    res.json(resultado);
+                }
+            ).catch(
+                function(erro) {
+                    console.log(erro);
+                    console.log(
+                        "\nHouve um erro ao recuperar os dados da CPU! Erro: ",
+                        erro.sqlMessage
+                    );
+                    res.status(500).json(erro.sqlMessage);
+                }
+            );
+    }
+}
+
 module.exports = {
     listarTudoDatas,
     listarUptime,
@@ -234,5 +261,6 @@ module.exports = {
     listarUsoMemoria24,
     listarUsoDisco30,
     listarUsoDiscoAgora,
+    listarTempoLogado,
     testar
 }

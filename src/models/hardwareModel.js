@@ -72,6 +72,25 @@ function listarUsoDiscoAgora(fkEmpresa, idMaquina) {
     return database.executar(instrucao);
 }
 
+function listarTempoLogado(fkEmpresa, idMaquina) {
+    console.log("ACESSEI O HARDWARE MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function listar()", fkEmpresa);
+    var dateNow = new Date();
+    // dateNow.setHours(dateNow.getHours() - 3);
+    dateNow.setSeconds(dateNow.getSeconds() - 15);
+    var date1 = new Date();
+    date1.setHours(-3);
+    date1.setMinutes(0);
+    date1.setSeconds(0);
+    var date2 = new Date();
+    // date2.setHours(date2.getHours() - 3);
+    var instrucao = `
+        SELECT top 1 nomeFuncionario, min(dataHora) as 'min', (select max(dataHora) from monitoramentoHardware where fkFuncionario = (select idFuncionario from funcionario inner join monitoramentoHardware on fkFuncionario = idFuncionario where fkMaquina = ${idMaquina} and dataHora >= '${dateNow.toISOString()}') and dataHora <= '${date2.toISOString()}') as 'max' FROM monitoramentoHardware hardmon inner join funcionario func on hardmon.fkFuncionario = func.idFuncionario inner join maquina maq on maq.idMaquina = hardmon.fkMaquina where maq.fkEmpresa = ${fkEmpresa} and hardmon.fkMaquina = ${idMaquina} and hardmon.fkFuncionario = (
+            select idFuncionario from funcionario inner join monitoramentoHardware on fkFuncionario = idFuncionario where fkMaquina = ${idMaquina} and dataHora >= '${dateNow.toISOString()}') and dataHora >= '${date1.toISOString()}' and dataHora <= '${date2.toISOString()}' group by nomeFuncionario, dataHora, dataHora;
+    `;
+    console.log("Executando a instrução SQL: \n" + instrucao);
+    return database.executar(instrucao);
+}
+
 module.exports = {
     listarTudoDatas,
     listarUptime,
@@ -80,5 +99,6 @@ module.exports = {
     listarUsoMemoria7,
     listarUsoMemoria24,
     listarUsoDisco30,
-    listarUsoDiscoAgora
+    listarUsoDiscoAgora,
+    listarTempoLogado
 };

@@ -39,4 +39,8 @@ router.get("/listarUsoDiscoAgora/:fkEmpresa/:idMaquina", function(req, res) {
     hardwareController.listarUsoDiscoAgora(req, res);
 });
 
+router.get("/listarTempoLogado/:fkEmpresa/:idMaquina", function(req, res) {
+    hardwareController.listarTempoLogado(req, res);
+});
+
 module.exports = router;
