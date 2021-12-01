@@ -9,8 +9,11 @@ function testar(req, res) {
 
 function listarTudoDatas(req, res) {
     var fkFuncionario = req.body.fkFuncionario;
-    var dataInicio = req.body.dataInicio;
-    var dataTermino = req.body.dataTermino;
+    var dataInicio = new Date(req.body.dataInicio);
+    var dataTermino = new Date(req.body.dataTermino);
+    dataTermino.setHours(44);
+    dataTermino.setMinutes(59);
+    dataTermino.setSeconds(59);
 
     if (fkFuncionario == undefined) {
         res.status(400).send("Sua fkFuncionario está undefined!");

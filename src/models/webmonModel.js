@@ -16,7 +16,7 @@ function listarHistorico(fkFuncionario, idMaquina) {
 function listarHistoricoDatas(fkFuncionario, dataInicio, dataTermino) {
     console.log("ACESSEI O HARDWARE MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function listar()", fkFuncionario);
     var instrucao = `
-        SELECT nomeFuncionario, hostname, url, dataHora FROM funcionario func inner join monitoramentoWeb webmon on webmon.fkFuncionario = func.idFuncionario inner join maquina maq on maq.idMaquina = webmon.fkMaquina where fkFuncionario = ${fkFuncionario} and dataHora >= '${dataInicio}' and dataHora <= '${dataTermino}';
+        SELECT nomeFuncionario, hostname, url, dataHora FROM funcionario func inner join monitoramentoWeb webmon on webmon.fkFuncionario = func.idFuncionario inner join maquina maq on maq.idMaquina = webmon.fkMaquina where fkFuncionario = ${fkFuncionario} and dataHora >= '${dataInicio.toISOString()}' and dataHora <= '${dataTermino.toISOString()}';
     `;
     console.log("Executando a instrução SQL: \n" + instrucao);
     return database.executar(instrucao);

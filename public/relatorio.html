@@ -9,6 +9,7 @@
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <link rel="stylesheet" href="./css/style.css">
     <link rel="icon shortcut" href="./img/logo.svg">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.debug.js" integrity="sha384-THVO/sM0mFD9h7dfSndI6TS0PgAGavwKvB5hAxRRvc0o9cPLohB0wb/PTA7LdUHs" crossorigin="anonymous"></script>
     <title>Dashboard</title>
 </head>
 
@@ -27,11 +28,11 @@
     </div>
 
     <div class="container">
-        <div class="formGeracaoRelatorio">
+        <form id="formRelatorio" class="formGeracaoRelatorio">
             <h1>Gerar Relatório</h1>
 
             <h2>Funcionário:</h2>
-            <select id="cmbFuncionario">
+            <select name="fkFuncionario" id="cmbFuncionario">
                 
             </select>
 
@@ -39,11 +40,11 @@
             <div class="datasRelatorio">
                 <div class="data">
                     <h3>Data Início:</h3>
-                    <input type="date" id="dtpInicio">
+                    <input name="dataInicio" type="date" id="dtpInicio">
                 </div>
                 <div class="data">
                     <h3>Data Término:</h3>
-                    <input type="date" id="dtpTermino">
+                    <input name="dataTermino" type="date" id="dtpTermino">
                 </div>
             </div>
 
@@ -79,7 +80,7 @@
                     <span>Gerar Relatório</span>
                 </div>
             </div>
-        </div>
+        </form>
     </div>
 </body>
 
@@ -101,8 +102,251 @@
         }
     });
 
-    function gerarRelatorio() {
+    async function gerarRelatorio() {
+        var formulario = new URLSearchParams(new FormData(formRelatorio));
 
+        var requisicao1 = await fetch(`/hardwares/listarTudoDatas`, {
+            method: "POST",
+            body: formulario
+        });
+        var json1 = await requisicao1.json();
+
+        var requisicao2 = await fetch(`/webmon/listarHistoricoDatas`, {
+            method: "POST",
+            body: formulario
+        });
+        var json2 = await requisicao2.json();
+
+        var getProcessador = document.getElementById("chkProcessador").checked;
+        var getMemoria = document.getElementById("chkMemoria").checked;
+        var getDisco = document.getElementById("chkDisco").checked;
+        var getTrafego = document.getElementById("chkTrafego").checked;
+
+        var getCritico = document.getElementById("chkCritico").checked;
+        var getEmergencial = document.getElementById("chkEmergencial").checked;
+        var getNormal = document.getElementById("chkNormal").checked;
+
+        var dataInicio = new Date(document.getElementById("dtpInicio").value);
+        dataInicio.setHours(dataInicio.getHours() + 3);
+        var dataTermino = new Date(document.getElementById("dtpTermino").value);
+        dataTermino.setHours(dataTermino.getHours() + 3);
+
+        var doc = new jsPDF();
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(36);
+        doc.text(`Relatório`, 20, 30);
+
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(20);
+        doc.text(`Funcionário: ${json1[0].nomeFuncionario}`, 20, 45);
+        doc.text(`De: ${formatarData(dataInicio)} ----- Até: ${formatarData(dataTermino)}`, 20, 55);
+
+        var dataAux = dataInicio;
+        var i1 = 0;
+        var alertaAnterior = "";
+        var alertaAgora;
+        var i2 = 0;
+        var urlAgora = "";
+        var urlAnterior = "";
+        for (dataAux; dataAux <= dataTermino; dataAux.setDate(dataAux.getDate() + 1)) {
+            doc.addPage("a4", "1");
+            var linha = 30
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(24);
+            doc.text(`${formatarData(dataAux)}`, 20, linha);
+            linha += 15;
+            var posicoesCritico = [];
+            var posicoesEmergencial = [];
+            var posicoesNormal = [];
+            var posicoesUrl = [];
+            for (i1; i1 < json1.length; i1++) {
+                if (new Date(json1[i1].dataHora).getDate() == dataAux.getDate()) {
+                    if (getProcessador) {
+                        if (json1[i1].cpuUso >= 90) {
+                            alertaAgora = "critico";
+                        } else if (json1[i1].cpuUso < 90 && json1[i1].cpuUso >= 75) {
+                            alertaAgora = "emergencial";
+                        } else if (json1[i1].cpuUso < 75) {
+                            alertaAgora = "normal";
+                        }
+                    }
+
+                    if (getDisco) {
+                        if (json1[i1].disco >= 90) {
+                            alertaAgora = "critico";
+                        } else if (json1[i1].disco < 90 && json1[i1].disco >= 75 && alertaAgora != "critico") {
+                            alertaAgora = "emergencial";
+                        } else if (json1[i1].disco < 75 && alertaAgora != "critico" && alertaAgora != "emergencial") {
+                            alertaAgora = "normal";
+                        }
+                    }
+
+                    if (getDisco) {
+                        if (json1[i1].ram >= 90) {
+                            alertaAgora = "critico";
+                        } else if (json1[i1].ram < 90 && json1[i1].ram >= 75 && alertaAgora != "critico") {
+                            alertaAgora = "emergencial";
+                        } else if (json1[i1].ram < 75 && alertaAgora != "critico" && alertaAgora != "emergencial") {
+                            alertaAgora = "normal";
+                        }
+                    }
+
+                    if (alertaAgora != alertaAnterior) {
+                        switch (alertaAgora) {
+                            case "critico":
+                                posicoesCritico.push(i1);
+                                break;
+                            case "emergencial":
+                                posicoesEmergencial.push(i1);
+                                break;
+                            case "normal":
+                                posicoesNormal.push(i1);
+                                break;
+                            default:
+                                break;
+                        }
+                        alertaAnterior = alertaAgora;
+                    }
+                } else {
+                    alertaAnterior = "";
+                    break;
+                }
+            }
+            if (getTrafego) {
+                for (i2; i2 < json2.length; i2++) {
+                    if (new Date(json2[i2].dataHora).getDate() == dataAux.getDate()) {
+                        urlAgora = json2[i2].url;
+
+                        if (urlAgora != urlAnterior) {
+                            posicoesUrl.push(i2);
+                            urlAnterior = urlAgora;
+                        }
+                    } else {
+                        alertaAnterior = "";
+                        break;
+                    }
+                }
+            }
+
+            if (getCritico) {
+                doc.setFont('helvetica', 'bold');
+                doc.setFontSize(18);
+                doc.text("Alertas Críticos: ", 20, linha);
+                linha += 10;
+                doc.setFont('helvetica', 'normal');
+                doc.setFontSize(14);
+                if (posicoesCritico.length == 0) {
+                    doc.text("Nenhum.", 20, linha);
+                } else {
+                    for (var index = 0; index < posicoesCritico.length; index++) {
+                        var texto = `Máquina: ${json1[posicoesCritico[index]].hostname}\n`;
+                        if (getProcessador) {
+                            texto += `CPU: ${json1[posicoesCritico[index]].cpuUso}% | `;
+                        }
+                        if (getDisco) {
+                            texto += `Disco: ${json1[posicoesCritico[index]].disco}% | `;
+                        }
+                        if (getMemoria) {
+                            texto += `RAM: ${json1[posicoesCritico[index]].ram}% | `;
+                        }
+                        texto += `Hora: ${new Date(json1[posicoesCritico[index]].dataHora).toTimeString().split(' ')[0]}`;
+                        doc.text(texto, 20, linha);
+                        linha += 15;
+                    }
+                }
+                linha += 15;
+            }
+
+            if (getEmergencial) {
+                doc.setFont('helvetica', 'bold');
+                doc.setFontSize(18);
+                doc.text("Alertas Emergenciais: ", 20, linha);
+                linha += 10;
+                doc.setFont('helvetica', 'normal');
+                doc.setFontSize(14);
+                if (posicoesEmergencial.length == 0) {
+                    doc.text("Nenhum.", 20, linha);
+                    linha += 15;
+                } else {
+                    for (var index = 0; index < posicoesEmergencial.length; index++) {
+                        var texto = `Máquina: ${json1[posicoesEmergencial[index]].hostname}\n`;
+                        if (getProcessador) {
+                            texto += `CPU: ${json1[posicoesEmergencial[index]].cpuUso}% | `;
+                        }
+                        if (getDisco) {
+                            texto += `Disco: ${json1[posicoesEmergencial[index]].disco}% | `;
+                        }
+                        if (getMemoria) {
+                            texto += `RAM: ${json1[posicoesEmergencial[index]].ram}% | `;
+                        }
+                        texto += `Hora: ${new Date(json1[posicoesEmergencial[index]].dataHora).toTimeString().split(' ')[0]}`;
+                        doc.text(texto, 20, linha);
+                        linha += 15;
+                    }
+                }
+            }
+
+            if (getNormal) {
+                doc.setFont('helvetica', 'bold');
+                doc.setFontSize(18);
+                doc.text("Alertas Normais: ", 20, linha);
+                linha += 10;
+                doc.setFont('helvetica', 'normal');
+                doc.setFontSize(14);
+                if (posicoesNormal.length == 0) {
+                    doc.text("Nenhum.", 20, linha);
+                    linha += 15;
+                } else {
+                    for (var index = 0; index < posicoesNormal.length; index++) {
+                        var texto = `Máquina: ${json1[posicoesNormal[index]].hostname}\n`;
+                        if (getProcessador) {
+                            texto += `CPU: ${json1[posicoesNormal[index]].cpuUso}% | `;
+                        }
+                        if (getDisco) {
+                            texto += `Disco: ${json1[posicoesNormal[index]].disco}% | `;
+                        }
+                        if (getMemoria) {
+                            texto += `RAM: ${json1[posicoesNormal[index]].ram}% | `;
+                        }
+                        texto += `Hora: ${new Date(json1[posicoesNormal[index]].dataHora).toTimeString().split(' ')[0]}`;
+                        doc.text(texto, 20, linha);
+                        linha += 15;
+                    }
+                }
+            }
+
+            if (getTrafego) {
+                doc.setFont('helvetica', 'bold');
+                doc.setFontSize(18);
+                doc.text("Sites acessados: ", 20, linha);
+                linha += 10;
+                doc.setFont('helvetica', 'normal');
+                doc.setFontSize(14);
+                if (posicoesUrl.length == 0) {
+                    doc.text("Nenhum.", 20, linha);
+                    linha += 15;
+                } else {
+                    for (var index = 0; index < posicoesUrl.length; index++) {
+                        var texto = `` +
+                            `Máquina: ${json2[posicoesUrl[index]].hostname}\n` +
+                            `Site: ${json2[posicoesUrl[index]].url} | ` +
+                            `Hora: ${new Date(json2[posicoesUrl[index]].dataHora).toTimeString().split(' ')[0]}`;
+                        doc.text(texto, 20, linha);
+                        linha += 15;
+                    }
+                }
+            }
+        }
+        doc.save(`Relatorio - ${json1[0].nomeFuncionario} - ${formatarData(dataInicio)} - ${formatarData(dataTermino)}`);
+    }
+
+    function formatarData(data) {
+        var dia = data.getDate().toString();
+        var diaF = (dia.length == 1) ? '0' + dia : dia;
+        var mes = (data.getMonth() + 1).toString(); //+1 pois no getMonth Janeiro começa com zero.
+        var mesF = (mes.length == 1) ? '0' + mes : mes;
+        var anoF = data.getFullYear();
+        return diaF + "/" + mesF + "/" + anoF;
     }
 
     function limpar() {

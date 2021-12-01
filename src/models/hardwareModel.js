@@ -12,7 +12,7 @@ function listarUptime(fkEmpresa, idMaquina) {
 function listarTudoDatas(fkFuncionario, dataInicio, dataTermino) {
     console.log("ACESSEI O HARDWARE MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function listar()");
     var instrucao = `
-        SELECT nomeFuncionario, hostname, cpuUso, disco, ram, dataHora FROM maquina maq inner join monitoramentoHardware hardmon on hardmon.fkMaquina = maq.idMaquina inner join funcionario func on func.idFuncionario = hardmon.fkFuncionario where fkFuncionario = ${fkFuncionario} and dataHora >= '${dataInicio}' and dataHora <= '${dataTermino}';
+        SELECT nomeFuncionario, hostname, cpuUso, disco, ram, dataHora FROM maquina maq inner join monitoramentoHardware hardmon on hardmon.fkMaquina = maq.idMaquina inner join funcionario func on func.idFuncionario = hardmon.fkFuncionario where fkFuncionario = ${fkFuncionario} and dataHora >= '${dataInicio.toISOString()}' and dataHora <= '${dataTermino.toISOString()}';
     `;
     console.log("Executando a instrução SQL: \n" + instrucao);
     return database.executar(instrucao);
