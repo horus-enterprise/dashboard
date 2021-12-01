@@ -7,7 +7,7 @@ function listarHistorico(fkFuncionario, idMaquina) {
     var date2 = new Date();
     // date2.setHours(date2.getHours() - 3);
     var instrucao = `
-        SELECT url, dataHora, nomeFuncionario FROM monitoramentoWeb inner join funcionario on fkFuncionario = idFuncionario where fkFuncionario = ${fkFuncionario} and fkMaquina = ${idMaquina} and dataHora >= '${date1.toISOString()}' and dataHora <= '${date2.toISOString()}';
+        SELECT url, dataHora FROM monitoramentoWeb inner join funcionario on fkFuncionario = idFuncionario where fkFuncionario = ${fkFuncionario} and fkMaquina = ${idMaquina} and dataHora >= '${date1.toISOString()}' and dataHora <= '${date2.toISOString()}' order by dataHora desc;
     `;
     console.log("Executando a instrução SQL: \n" + instrucao);
     return database.executar(instrucao);
@@ -16,7 +16,7 @@ function listarHistorico(fkFuncionario, idMaquina) {
 function listarHistoricoDatas(fkFuncionario, dataInicio, dataTermino) {
     console.log("ACESSEI O HARDWARE MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function listar()", fkFuncionario);
     var instrucao = `
-        SELECT nomeFuncionario, hostname, url, dataHora FROM funcionario func inner join monitoramentoWeb webmon on webmon.fkFuncionario = func.idFuncionario inner join maquina maq on maq.idMaquina = webmon.fkMaquina where fkFuncionario = ${fkFuncionario} and dataHora >= '${dataInicio.toISOString()}' and dataHora <= '${dataTermino.toISOString()}';
+        SELECT nomeFuncionario, hostname, url, dataHora FROM funcionario func inner join monitoramentoWeb webmon on webmon.fkFuncionario = func.idFuncionario inner join maquina maq on maq.idMaquina = webmon.fkMaquina where fkFuncionario = ${fkFuncionario} and dataHora >= '${dataInicio.toISOString()}' and dataHora <= '${dataTermino.toISOString()}' order by dataHora;
     `;
     console.log("Executando a instrução SQL: \n" + instrucao);
     return database.executar(instrucao);

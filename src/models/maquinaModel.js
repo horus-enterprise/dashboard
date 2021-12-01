@@ -6,7 +6,7 @@ function listar(fkEmpresa) {
     // date.setHours(date.getHours() - 3);
     date.setSeconds(date.getSeconds() - 15);
     var instrucao = `
-        SELECT idMaquina, hostname, cpuUso, disco, ram, max(dataHora) as 'dataHora' FROM maquina inner join monitoramentoHardware on fkMaquina = idMaquina where fkEmpresa = ${fkEmpresa} and dataHora >= '${date.toISOString()}' group by idMaquina, hostname, cpuUso, disco, ram, dataHora;
+        SELECT idMaquina, hostname, cpuUso, disco, ram, max(dataHora) as 'dataHora', fkFuncionario FROM maquina inner join monitoramentoHardware on fkMaquina = idMaquina where fkEmpresa = ${fkEmpresa} and dataHora >= '${date.toISOString()}' group by idMaquina, hostname, cpuUso, disco, ram, dataHora, fkFuncionario;
     `;
     console.log("Executando a instrução SQL: \n" + instrucao);
     return database.executar(instrucao);
@@ -18,7 +18,7 @@ function listarPorNome(fkEmpresa, hostname) {
     // date.setHours(date.getHours() - 3);
     date.setSeconds(date.getSeconds() - 15);
     var instrucao = `
-        SELECT idMaquina, hostname, cpuUso, disco, ram, max(dataHora) as 'dataHora' FROM maquina inner join monitoramentoHardware on fkMaquina = idMaquina where fkEmpresa = ${fkEmpresa} and dataHora >= '${date.toISOString()}' and hostname like '%${hostname}%' group by idMaquina, hostname, cpuUso, disco, ram, dataHora;
+        SELECT idMaquina, hostname, cpuUso, disco, ram, max(dataHora) as 'dataHora', fkFuncionario FROM maquina inner join monitoramentoHardware on fkMaquina = idMaquina where fkEmpresa = ${fkEmpresa} and dataHora >= '${date.toISOString()}' and hostname like '%${hostname}%' group by idMaquina, hostname, cpuUso, disco, ram, dataHora, fkFuncionario;
     `;
     console.log("Executando a instrução SQL: \n" + instrucao);
     return database.executar(instrucao);

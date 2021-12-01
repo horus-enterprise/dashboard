@@ -11,7 +11,7 @@ function secondsToHMS(secs) {
     return new Date(secs * 1000).toISOString().substr(11, 8);
 }
 
-function abrirModal(idMaquina) {
+function abrirModal(idMaquina, idFuncionario) {
     modal.style.display = "flex";
     var uptime;
     var segundos;
@@ -30,8 +30,6 @@ function abrirModal(idMaquina) {
 
                         tamanhoRam = json[0].tamanhoRam;
                         tamanhoDisco = json[0].tamanhoDisco;
-
-                        drawTableHistorico();
                     });
             }
         });
@@ -121,10 +119,35 @@ function abrirModal(idMaquina) {
             if (res.ok) {
                 res.json()
                     .then(json => {
+                        fkFuncionario = json[0].idFuncionario;
                         document.getElementById("lblNmFuncionario").innerHTML = `<b>Funcionário:</b> ${json[0].nomeFuncionario}`;
                         var ms = new Date(json[0].max) - new Date(json[0].min);
-                        console.log(msToHMS(ms));
                         document.getElementById("lblTempoLogado").innerHTML = `<b>Tempo logado:</b> ${msToHMS(ms)}`;
+                    });
+            }
+        });
+
+    fetch(`/webmon/listarHistorico/${idFuncionario}/${idMaquina}`)
+        .then(res => {
+            if (res.ok) {
+                res.json()
+                    .then(json => {
+                        var urls = [];
+                        for (let i = 0; i < json.length; i++) {
+                            if (urls.length == 0) {
+                                urls.push(json[i]);
+                            } else {
+                                for (let j = 0; j < urls.length; j++) {
+                                    if (json[i].url == urls[j].url) {
+                                        break;
+                                    }
+                                    if ((j + 1) == urls.length) {
+                                        urls.push(json[i]);
+                                    }
+                                }
+                            }
+                        }
+                        drawTableHistorico(urls);
                     });
             }
         });
@@ -768,21 +791,20 @@ function drawChartDiscoAgora(tamanhoDisco, uso) {
 //  ======================================= GRÁFICO HISTÓRICO =======================================
 
 
-function drawTableHistorico() {
+function drawTableHistorico(urls) {
     var data = new google.visualization.DataTable();
     data.addColumn('string', 'Site');
-    data.addColumn('string', 'Tempo');
     data.addColumn('string', 'Último Acesso');
-    data.addRows([
-        ['Facebook', '01:22:31', '09/11/21 - 13:02:57'],
-        ['Instagram', '01:22:31', '09/11/21 - 13:02:57'],
-        ['Twitter', '01:22:31', '09/11/21 - 13:02:57']
-    ]);
+    for (let index = 0; index < urls.length; index++) {
+        const element = urls[index];
+        data.addRow([element.url, new Date(element.dataHora).toLocaleString()]);
+
+    }
 
     var table = new google.visualization.Table(document.getElementById('tabelaHistorico'));
 
     table.draw(data, {
-        height: 128,
+        height: urls.length * 36,
         width: '100%',
     });
 }

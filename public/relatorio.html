@@ -237,8 +237,13 @@
                 doc.setFontSize(14);
                 if (posicoesCritico.length == 0) {
                     doc.text("Nenhum.", 20, linha);
+                    linha += 15;
                 } else {
                     for (var index = 0; index < posicoesCritico.length; index++) {
+                        if (linha > 280) {
+                            doc.addPage("a4", "1");
+                            linha = 20;
+                        }
                         var texto = `Máquina: ${json1[posicoesCritico[index]].hostname}\n`;
                         if (getProcessador) {
                             texto += `CPU: ${json1[posicoesCritico[index]].cpuUso}% | `;
@@ -254,7 +259,6 @@
                         linha += 15;
                     }
                 }
-                linha += 15;
             }
 
             if (getEmergencial) {
@@ -269,6 +273,10 @@
                     linha += 15;
                 } else {
                     for (var index = 0; index < posicoesEmergencial.length; index++) {
+                        if (linha > 280) {
+                            doc.addPage("a4", "1");
+                            linha = 20;
+                        }
                         var texto = `Máquina: ${json1[posicoesEmergencial[index]].hostname}\n`;
                         if (getProcessador) {
                             texto += `CPU: ${json1[posicoesEmergencial[index]].cpuUso}% | `;
@@ -298,6 +306,10 @@
                     linha += 15;
                 } else {
                     for (var index = 0; index < posicoesNormal.length; index++) {
+                        if (linha > 280) {
+                            doc.addPage("a4", "1");
+                            linha = 20;
+                        }
                         var texto = `Máquina: ${json1[posicoesNormal[index]].hostname}\n`;
                         if (getProcessador) {
                             texto += `CPU: ${json1[posicoesNormal[index]].cpuUso}% | `;
@@ -327,6 +339,10 @@
                     linha += 15;
                 } else {
                     for (var index = 0; index < posicoesUrl.length; index++) {
+                        if (linha > 280) {
+                            doc.addPage("a4", "1");
+                            linha = 20;
+                        }
                         var texto = `` +
                             `Máquina: ${json2[posicoesUrl[index]].hostname}\n` +
                             `Site: ${json2[posicoesUrl[index]].url} | ` +

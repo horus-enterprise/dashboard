@@ -99,19 +99,19 @@
                             for (let index = 0; index < json.length; index++) {
                                 if (json[index].cpuUso >= 90 || json[index].disco >= 90 || json[index].ram >= 90) {
                                     document.getElementById("divComputadores").innerHTML += `
-                                        <div class="computador orderCritico" onclick="abrirModal(${json[index].idMaquina})">
+                                        <div class="computador orderCritico" onclick="abrirModal(${json[index].idMaquina}, ${json[index].fkFuncionario})">
                                             <h2>${json[index].hostname}</h2>
                                             <img src="./img/alertaCritico.svg" alt="Computador com alerta crítico">
                                         </div>`
                                 } else if (json[index].cpuUso < 90 && json[index].cpuUso >= 75 || json[index].disco < 90 && json[index].disco >= 75 || json[index].ram < 90 && json[index].ram >= 75) {
                                     document.getElementById("divComputadores").innerHTML += `
-                                        <div class="computador orderEmergencial" onclick="abrirModal(${json[index].idMaquina})">
+                                        <div class="computador orderEmergencial" onclick="abrirModal(${json[index].idMaquina}, ${json[index].fkFuncionario})">
                                             <h2>${json[index].hostname}</h2>
                                             <img src="./img/alertaEmergencial.svg" alt="Computador com alerta emergencial">
                                         </div>`
                                 } else if (json[index].cpuUso < 75 || json[index].disco < 75 || json[index].ram < 75) {
                                     document.getElementById("divComputadores").innerHTML += `
-                                        <div class="computador orderNormal" onclick="abrirModal(${json[index].idMaquina})">
+                                        <div class="computador orderNormal" onclick="abrirModal(${json[index].idMaquina}, ${json[index].fkFuncionario})">
                                             <h2>${json[index].hostname}</h2>
                                             <img src="./img/alertaNormal.svg" alt="Computador com alerta normal">
                                         </div>`
@@ -131,19 +131,19 @@
                             for (let index = 0; index < json.length; index++) {
                                 if (json[index].cpuUso >= 90 || json[index].disco >= 90 || json[index].ram >= 90) {
                                     document.getElementById("divComputadores").innerHTML += `
-                                        <div class="computador orderCritico" onclick="abrirModal(${json[index].idMaquina})">
+                                        <div class="computador orderCritico" onclick="abrirModal(${json[index].idMaquina}, ${json[index].fkFuncionario})">
                                             <h2>${json[index].hostname}</h2>
                                             <img src="./img/alertaCritico.svg" alt="Computador com alerta crítico">
                                         </div>`
                                 } else if (json[index].cpuUso < 90 && json[index].cpuUso >= 75 || json[index].disco < 90 && json[index].disco >= 75 || json[index].ram < 90 && json[index].ram >= 75) {
                                     document.getElementById("divComputadores").innerHTML += `
-                                        <div class="computador orderEmergencial" onclick="abrirModal(${json[index].idMaquina})">
+                                        <div class="computador orderEmergencial" onclick="abrirModal(${json[index].idMaquina}, ${json[index].fkFuncionario})">
                                             <h2>${json[index].hostname}</h2>
                                             <img src="./img/alertaEmergencial.svg" alt="Computador com alerta emergencial">
                                         </div>`
                                 } else if (json[index].cpuUso < 75 || json[index].disco < 75 || json[index].ram < 75) {
                                     document.getElementById("divComputadores").innerHTML += `
-                                        <div class="computador orderNormal" onclick="abrirModal(${json[index].idMaquina})">
+                                        <div class="computador orderNormal" onclick="abrirModal(${json[index].idMaquina}, ${json[index].fkFuncionario})">
                                             <h2>${json[index].hostname}</h2>
                                             <img src="./img/alertaNormal.svg" alt="Computador com alerta normal">
                                         </div>`
