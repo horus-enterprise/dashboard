@@ -30,6 +30,30 @@ function listar(req, res) {
     }
 }
 
+function listarPorNome(req, res) {
+    var fkEmpresa = req.params.fkEmpresa;
+    var hostname = req.params.hostname;
+
+    if (fkEmpresa == undefined) {
+        res.status(400).send("Sua fkEmpresa está undefined!");
+    } else {
+        maquinaModel.listarPorNome(fkEmpresa, hostname)
+            .then(function(resultado) {
+                if (resultado.length > 0) {
+                    res.status(200).json(resultado);
+                } else {
+                    res.status(204).send("Nenhum resultado encontrado!")
+                }
+            }).catch(
+                function(erro) {
+                    console.log(erro);
+                    console.log("Houve um erro ao realizar a consulta! Erro: ", erro.sqlMessage);
+                    res.status(500).json(erro.sqlMessage);
+                }
+            );
+    }
+}
+
 function listarDescComponentes(req, res) {
     var fkEmpresa = req.params.fkEmpresa;
     var id = req.params.idMaquina;
@@ -59,6 +83,7 @@ function listarDescComponentes(req, res) {
 
 module.exports = {
     listar,
+    listarPorNome,
     listarDescComponentes,
     testar
 }

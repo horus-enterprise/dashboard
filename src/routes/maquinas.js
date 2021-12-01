@@ -11,6 +11,10 @@ router.get("/listar/:fkEmpresa", function(req, res) {
     maquinaController.listar(req, res);
 });
 
+router.get("/listar/:fkEmpresa/:hostname", function(req, res) {
+    maquinaController.listarPorNome(req, res);
+});
+
 router.get("/listarDescComponentes/:fkEmpresa/:idMaquina", function(req, res) {
     maquinaController.listarDescComponentes(req, res);
 });
